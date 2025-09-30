@@ -1,0 +1,21 @@
+'''
+✅ Câu 4: Các kiểu dữ liệu cơ bản trong Python
+
+Số nguyên: int
+
+Số thực: float
+
+Chuỗi: str
+
+Luận lý: bool
+
+Danh sách: list
+
+Tuple: tuple
+
+Tập hợp: set
+
+Từ điển: dict
+
+NoneType: None
+'''

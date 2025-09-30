@@ -1,0 +1,17 @@
+'''
+Câu 6: Ý nghĩa các toán tử
+
+/ : Chia thực
+
+// : Chia lấy phần nguyên
+
+% : Chia lấy phần dư
+
+** : Lũy thừa
+
+and : Phép AND logic
+
+or : Phép OR logic
+
+is : So sánh định danh (2 biến có trỏ cùng 1 đối tượng không?)
+'''

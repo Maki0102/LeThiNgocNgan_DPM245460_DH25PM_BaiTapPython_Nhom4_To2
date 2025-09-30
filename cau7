@@ -1,0 +1,4 @@
+a = int(input("Nhập số nguyên: "))
+b = float(input("Nhập số thực: "))
+x, y = map(int, input("Nhập 2 số cách nhau bởi dấu cách: ").split())
+x, y = eval(input("Nhập 2 số (x, y): "))

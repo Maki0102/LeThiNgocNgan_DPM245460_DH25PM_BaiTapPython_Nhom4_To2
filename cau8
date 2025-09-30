@@ -1,0 +1,4 @@
+try:
+    # Code có thể gây lỗi
+except Exception as e:
+    print("Đã xảy ra lỗi:", e)

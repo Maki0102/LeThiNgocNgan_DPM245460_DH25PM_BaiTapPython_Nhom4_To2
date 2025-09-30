@@ -1,0 +1,9 @@
+t = int(input("Nhập số giây: "))
+hour = (t // 3600) % 24
+minute = (t % 3600) // 60
+second = (t % 3600) % 60
+
+period = "AM" if hour < 12 else "PM"
+hour_display = hour if 1 <= hour <= 12 else (hour - 12 if hour > 12 else 12)
+
+print(f"{hour_display}:{minute}:{second} {period}")

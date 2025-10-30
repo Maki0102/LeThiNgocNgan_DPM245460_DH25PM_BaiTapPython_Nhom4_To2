@@ -1,0 +1,353 @@
+# Câu 1: Kiểm tra năm nhuần
+print("=== Chương trình kiểm tra năm nhuận ===")
+year = int(input("Mời bạn nhập vào một năm: "))
+if (year % 4 == 0 and year % 100 != 0) or (year % 400 == 0):
+    print(f"Năm {year} là năm nhuận.")
+else:
+    print(f"Năm {year} không phải là năm nhuận.")
+
+# Câu 2: Đếm số ngày trong tháng
+print("=== Chương trình đếm số ngày trong tháng ===")
+
+# Nhập tháng
+month = int(input("Nhập vào 1 tháng (1–12): "))
+
+# Kiểm tra số ngày
+if month in (1, 3, 5, 7, 8, 10, 12):
+    print(f"Tháng {month} có 31 ngày.")
+elif month in (4, 6, 9, 11):
+    print(f"Tháng {month} có 30 ngày.")
+elif month == 2:
+    # Nếu là tháng 2 thì cần nhập thêm năm
+    year = int(input("Nhập vào năm: "))
+    # Kiểm tra năm nhuận
+    if (year % 4 == 0 and year % 100 != 0) or (year % 400 == 0):
+        print(f"Tháng {month} năm {year} có 29 ngày (năm nhuận).")
+    else:
+        print(f"Tháng {month} năm {year} có 28 ngày.")
+else:
+    print("Tháng không hợp lệ! Vui lòng nhập từ 1 đến 12.")
+
+# Câu 3: Phương trình bậc 2
+from math import sqrt
+
+print("Chương trình Giải Phương trình bậc 2")
+a = float(input("Nhập a: "))
+b = float(input("Nhập b: "))
+c = float(input("Nhập c: "))
+
+if a == 0:
+    # bx + c = 0
+    if b == 0:
+        if c == 0:
+            print("Phương trình có vô số nghiệm")
+        else:
+            print("Phương trình vô nghiệm")
+    else:
+        x = -c / b
+        print("Phương trình có một nghiệm x =", x)
+else:
+    delta = b**2 - 4*a*c
+    if delta < 0:
+        print("Phương trình vô nghiệm")
+    elif delta == 0:
+        x = -b / (2*a)
+        print("Phương trình có nghiệm kép x1 = x2 =", x)
+    else:
+        x1 = (-b - sqrt(delta)) / (2*a)
+        x2 = (-b + sqrt(delta)) / (2*a)
+        print("Phương trình có 2 nghiệm phân biệt:")
+        print("x1 =", x1)
+        print("x2 =", x2)
+
+# Câu 4: Hãy cho biết kết quả của Boolean Expression
+x, y, z = 3, 5, 7
+
+print("Giá trị của các biểu thức Boolean:\n")
+
+print("(a) x == 3 :", x == 3)
+print("(b) x < y :", x < y)
+print("(c) x >= y :", x >= y)
+print("(d) x <= y :", x <= y)
+print("(e) x != y - 2 :", x != y - 2)
+print("(f) x < 10 :", x < 10)
+print("(g) x >= 0 and x < 10 :", x >= 0 and x < 10)
+print("(h) x < 0 and x < 10 :", x < 0 and x < 10)
+print("(i) x >= 0 and x < 2 :", x >= 0 and x < 2)
+print("(j) x < 0 or x < 10 :", x < 0 or x < 10)
+print("(k) x > 0 or x < 10 :", x > 0 or x < 10)
+print("(l) x < 0 or x > 10 :", x < 0 or x > 10)
+
+# KQ
+Giá trị của các biểu thức Boolean:
+
+(a) x == 3 : True
+(b) x < y : True
+(c) x >= y : False
+(d) x <= y : True
+(e) x != y - 2 : False
+(f) x < 10 : True
+(g) x >= 0 and x < 10 : True
+(h) x < 0 and x < 10 : False
+(i) x >= 0 and x < 2 : False
+(j) x < 0 or x < 10 : True
+(k) x > 0 or x < 10 : True
+(l) x < 0 or x > 10 : False
+
+# Câu 5: Hãy cho biết kết quả xuất ra màn hình
+cases = [
+    (3, 5, 7),
+    (3, 7, 5),
+    (5, 3, 7),
+    (5, 7, 3),
+    (7, 3, 5),
+    (7, 5, 3)
+]
+
+for (i, j, k) in cases:
+    print(f"Trường hợp ban đầu: i={i}, j={j}, k={k}")
+    if i < j:
+        if j < k:
+            i = j
+        else:
+            j = k
+    else:
+        if j > k:
+            j = i
+        else:
+            i = k
+    print(f"→ Kết quả: i={i}, j={j}, k={k}\n")
+#KQ
+Trường hợp ban đầu: i=3, j=5, k=7
+→ Kết quả: i=5, j=5, k=7
+
+Trường hợp ban đầu: i=3, j=7, k=5
+→ Kết quả: i=3, j=5, k=5
+
+Trường hợp ban đầu: i=5, j=3, k=7
+→ Kết quả: i=7, j=3, k=7
+
+Trường hợp ban đầu: i=5, j=7, k=3
+→ Kết quả: i=5, j=3, k=3
+
+Trường hợp ban đầu: i=7, j=3, k=5
+→ Kết quả: i=5, j=3, k=5
+
+Trường hợp ban đầu: i=7, j=5, k=3
+→ Kết quả: i=7, j=7, k=3
+# Câu 6: Nhập một số n có tối đa 2 chữ số. Hãy cho biết cách đọc ra dạng chữ.
+n = int(input("Nhập số n (0-99): "))
+
+don_vi = ["", "một", "hai", "ba", "bốn", "năm", "sáu", "bảy", "tám", "chín"]
+
+if n < 10:
+    if n == 0:
+        print("Không")
+    else:
+        print(don_vi[n].capitalize())
+else:
+    chuc = n // 10
+    dv = n % 10
+    ket_qua = ""
+
+    if chuc == 1:
+        ket_qua = "Mười"
+    else:
+        ket_qua = don_vi[chuc].capitalize() + " mươi"
+
+    if dv != 0:
+        if dv == 1 and chuc > 1:
+            ket_qua += " mốt"
+        elif dv == 5:
+            ket_qua += " lăm"
+        else:
+            ket_qua += " " + don_vi[dv]
+    
+    print(ket_qua)
+
+# Câu 7: Nhập vào một ngày (ngày, tháng, năm). Tìm ngày kế sau ngày vừa nhập (ngày/tháng/năm).
+import datetime
+
+ngay = int(input("Nhập ngày: "))
+thang = int(input("Nhập tháng: "))
+nam = int(input("Nhập năm: "))
+
+try:
+    d = datetime.date(nam, thang, ngay)
+    ngay_ke = d + datetime.timedelta(days=1)
+    print("Ngày kế tiếp là:", ngay_ke.strftime("%d/%m/%Y"))
+except ValueError:
+    print("Ngày tháng năm không hợp lệ!")
+
+# Câu 8: Nhập vào 2 giá trị a, b và phép toán ‘+’, ‘-’, ‘*’, ‘/’ . Hãy xuất kết quả theo đúng phép toán đã nhập.
+a = float(input("Nhập a: "))
+b = float(input("Nhập b: "))
+op = input("Nhập phép toán (+, -, *, /): ")
+
+if op == '+':
+    kq = a + b
+elif op == '-':
+    kq = a - b
+elif op == '*':
+    kq = a * b
+elif op == '/':
+    if b == 0:
+        print("Không thể chia cho 0!")
+        exit()
+    kq = a / b
+else:
+    print("Phép toán không hợp lệ!")
+    exit()
+
+print(f"{a} {op} {b} = {kq}")
+
+# Câu 9: Nhập vào 1 tháng, xuất ra tháng đó thuộc quý mấy trong năm.
+thang = int(input("Nhập tháng (1-12): "))
+
+if 1 <= thang <= 3:
+    print("Tháng", thang, "thuộc quý 1")
+elif 4 <= thang <= 6:
+    print("Tháng", thang, "thuộc quý 2")
+elif 7 <= thang <= 9:
+    print("Tháng", thang, "thuộc quý 3")
+elif 10 <= thang <= 12:
+    print("Tháng", thang, "thuộc quý 4")
+else:
+    print("Tháng không hợp lệ!")
+
+# Câu 10: Tính dãy số
+x = int(input("Nhập x: "))
+n = int(input("Nhập n: "))
+
+s = 0 # tổng S
+
+for i in range(1, n + 1):
+    tu = x ** i # tử số là x^i
+    mau = 1 # mẫu số là i!
+    for j in range(1, i + 1):
+        mau *= j
+    s += tu / mau
+
+print("S({}, {}) = {:.4f}".format(x, n, s))
+
+# Câu 11: Kiểm tra số nguyên tố
+print("=== CHƯƠNG TRÌNH KIỂM TRA SỐ NGUYÊN TỐ ===")
+
+while True:
+    n = int(input("Nhập một số nguyên dương: "))
+
+    if n < 2:
+        print(n, "không phải là số nguyên tố.")
+    else:
+        dem = 0
+        for i in range(1, n + 1):
+            if n % i == 0:
+                dem += 1
+        if dem == 2:
+            print(n, "là số nguyên tố.")
+        else:
+            print(n, "không phải là số nguyên tố.")
+
+    hoi = input("Tiếp tục không? (c/k): ")
+    if hoi.lower() == "k":
+        break
+
+print("BYE!")
+
+# Câu 12: Xuất bảng cửu chương
+for i in range(1, 11): # i là số nhân (1 đến 10)
+    for j in range(2, 10): # j là bảng cửu chương (2 đến 9)
+        line = "{0}*{1:>2}={2:>2}".format(j, i, i * j)
+        print(line, end="\t") # In cùng dòng, cách nhau bằng tab
+    print() # Xuống dòng sau mỗi hàng
+
+# Câu 13: Cho biết bao nhiêu dấu * được in ra trên màn hình
+a = 0
+while a < 100:
+    print('*', end='')
+    a += 1
+print()
+#Khi đó, chương trình sẽ in 100 dấu * rồi dừng lại.
+
+# Câu 14: Cho biết bao nhiêu dấu * được in ra trên màn hình
+Số dấu * được in ra màn hình là: 2000
+
+# Câu 15: Giải thích cách chạy các dòng lệnh range
+print("a) range(5)           →", list(range(5)))
+print("b) range(5, 10)        →", list(range(5, 10)))
+print("c) range(5, 20, 3)     →", list(range(5, 20, 3)))
+print("d) range(20, 5, -1)    →", list(range(20, 5, -1)))
+print("e) range(20, 5, -3)    →", list(range(20, 5, -3)))
+print("f) range(10, 5)        →", list(range(10, 5)))
+print("g) range(0)            →", list(range(0)))
+print("h) range(10, 101, 10)  →", list(range(10, 101, 10)))
+print("i) range(10, -1, -1)   →", list(range(10, -1, -1)))
+print("j) range(-3, 4)        →", list(range(-3, 4)))
+print("k) range(0, 10, 1)     →", list(range(0, 10, 1)))
+| STT | Lệnh                 | Dãy số tạo ra                               | Giải thích                                     |
+| --- | -------------------- | ------------------------------------------- | ---------------------------------------------- |
+| (a) | `range(5)`           | `[0, 1, 2, 3, 4]`                           | Mặc định bắt đầu từ 0, dừng trước 5            |
+| (b) | `range(5, 10)`       | `[5, 6, 7, 8, 9]`                           | Bắt đầu 5, dừng trước 10                       |
+| (c) | `range(5, 20, 3)`    | `[5, 8, 11, 14, 17]`                        | Tăng 3 mỗi lần                                 |
+| (d) | `range(20, 5, -1)`   | `[20, 19, 18, ..., 6]`                      | Giảm 1 mỗi lần, dừng trước 5                   |
+| (e) | `range(20, 5, -3)`   | `[20, 17, 14, 11, 8]`                       | Giảm 3 mỗi lần                                 |
+| (f) | `range(10, 5)`       | `[]`                                        | Step mặc định là +1, nhưng 10 > 5 → không chạy |
+| (g) | `range(0)`           | `[]`                                        | Dừng ngay, không có số nào                     |
+| (h) | `range(10, 101, 10)` | `[10, 20, 30, 40, 50, 60, 70, 80, 90, 100]` | Tăng 10 mỗi lần                                |
+| (i) | `range(10, -1, -1)`  | `[10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]`        | Giảm 1 đến 0                                   |
+| (j) | `range(-3, 4)`       | `[-3, -2, -1, 0, 1, 2, 3]`                  | Từ -3 đến 3                                    |
+| (k) | `range(0, 10, 1)`    | `[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]`            | Giống `range(10)`                              |
+
+# Câu 16: Cho biết bao nhiêu dấu * được in ra trên màn hình
+Có 16 dấu * được in ra màn hình.
+
+# Câu 17: Viết lại coding dưới đây bằng cách dùng từ khóa break thay thế cho biến done
+n, m = 0, 100
+while n != m:
+    n = int(input())
+    if n < 0:
+        break
+print("n =", n)
+
+# Câu 18: Vẽ các hình dưới đây
+n = int(input("Nhập chiều cao n: "))
+
+print("Hình 1:")
+for i in range(n):
+    for j in range(n):
+        print("*", end=" ")
+    print()
+
+print("\nHình 2:")
+for i in range(1, n + 1):
+    for j in range(i):
+        print("*", end=" ")
+    print()
+
+print("\nHình 3:")
+for i in range(n, 0, -1):
+    for j in range(i):
+        print("*", end=" ")
+    print()
+
+# Câu 19: Tính giá trị biểu thức S
+import math
+
+# Nhập giá trị x và n
+x = float(input("Nhập x: "))
+n = int(input("Nhập n: "))
+
+S = 0
+
+# Tính S(x, n)
+for i in range(n + 1):
+    tu = x ** (2 * i + 1) # x^(2i+1)
+    mau = math.factorial(2 * i + 1) # (2i+1)!
+    S += tu / mau
+
+print("Giá trị của S({0}, {1}) = {2}".format(x, n, S))
+
+
+
+
+

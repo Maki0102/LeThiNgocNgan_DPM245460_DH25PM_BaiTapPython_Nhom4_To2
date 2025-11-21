@@ -1,0 +1,208 @@
+# Câu 1
+def CheckDoiXung(s):
+    flag = True
+    for i in range(len(s)):
+        if s[i] != s[len(s) - i - 1]:
+            flag = False
+            break
+    return flag
+
+def main():
+    s = input("Nhập 1 chuỗi: ")
+    if CheckDoiXung(s):
+        print("Chuỗi bạn nhập đối xứng")
+    else:
+        print("Chuỗi bạn nhập không đối xứng")
+
+# Vòng lặp vĩnh cửu
+while True:
+    main()
+    tiep = input("Tiếp không Thím? (c/k): ")
+    if tiep.lower() == "k":
+        break
+
+print("CÁM ƠN THÍM")
+
+# Câu 2
+def ToiUuChuoi(s):
+    # Loại bỏ khoảng trắng đầu và cuối
+    s2 = s.strip()
+    
+    # Tách chuỗi thành danh sách các từ
+    arr = s2.split(' ')
+    
+    # Ghép lại các từ, loại bỏ các khoảng trắng dư thừa
+    s2 = ""
+    for x in arr:
+        word = x
+        if len(word.strip()) != 0:
+            s2 += word + " "
+    
+    # Loại bỏ khoảng trắng cuối cùng
+    return s2.strip()
+
+# Ví dụ sử dụng
+s = " Trần  Duy   Thanh "
+print(s, "=>", len(s))
+s = ToiUuChuoi(s)
+print(s, "=>", len(s))
+
+# Câu 3
+def CheckPrime(x):
+    # Số nguyên tố là số >1 chỉ chia hết cho 1 và chính nó
+    if x < 2:
+        return False
+    for i in range(2, int(x**0.5) + 1):
+        if x % i == 0:
+            return False
+    return True
+
+# Nhập chuỗi từ bàn phím
+s = input("Nhập chuỗi các số, phân cách bằng ';': ")
+arr = s.split(';')
+
+sochan = 0
+soam = 0
+sont = 0
+tong = 0
+
+print("\nCác số trong chuỗi:")
+for x in arr:
+    print(x)
+    number = int(x)
+    if number % 2 == 0:
+        sochan += 1
+    if number < 0:
+        soam += 1
+    if CheckPrime(number):
+        sont += 1
+    tong += number
+
+print("\nKết quả thống kê:")
+print("Số chẵn =", sochan)
+print("Số âm =", soam)
+print("Số nguyên tố =", sont)
+print("Trung bình =", tong / len(arr))
+
+# Câu 4
+| Hàm                  | Mô tả                              | Ví dụ                                          |
+| -------------------- | ---------------------------------- | ---------------------------------------------- |
+| `len(s)`             | Độ dài chuỗi                       | `len("abc")` → `3`                             |
+| `upper()`            | Chữ hoa                            | `"abc".upper()` → `"ABC"`                      |
+| `lower()`            | Chữ thường                         | `"ABC".lower()` → `"abc"`                      |
+| `title()`            | Hoa chữ cái đầu mỗi từ             | `"hello world".title()` → `"Hello World"`      |
+| `capitalize()`       | Hoa chữ cái đầu tiên               | `"hello world".capitalize()` → `"Hello world"` |
+| `startswith(prefix)` | Bắt đầu bằng                       | `"abc".startswith("a")` → `True`               |
+| `endswith(suffix)`   | Kết thúc bằng                      | `"abc".endswith("c")` → `True`                 |
+| `find(sub)`          | Vị trí đầu tiên                    | `"hello".find("l")` → `2`                      |
+| `index(sub)`         | Vị trí đầu tiên (lỗi nếu không có) | `"hello".index("l")` → `2`                     |
+| `count(sub)`         | Đếm số lần xuất hiện               | `"hello".count("l")` → `2`                     |
+| `strip()`            | Xóa khoảng trắng đầu/cuối          | `"  abc  ".strip()` → `"abc"`                  |
+| `lstrip()`           | Xóa khoảng trắng trái              | `"  abc  ".lstrip()` → `"abc  "`               |
+| `rstrip()`           | Xóa khoảng trắng phải              | `"  abc  ".rstrip()` → `"  abc"`               |
+| `split(sep)`         | Tách chuỗi thành list              | `"a,b,c".split(",")` → `['a','b','c']`         |
+| `join(list)`         | Nối list thành chuỗi               | `",".join(["a","b","c"])` → `"a,b,c"`          |
+| `replace(old,new)`   | Thay thế chuỗi                     | `"hello".replace("l","x")` → `"hexxo"`         |
+| `swapcase()`         | Đổi hoa ↔ thường                   | `"Hello".swapcase()` → `"hELLO"`               |
+| `isdigit()`          | Toàn số                            | `"123".isdigit()` → `True`                     |
+| `isalpha()`          | Toàn chữ                           | `"abc".isalpha()` → `True`                     |
+| `isalnum()`          | Chữ hoặc số                        | `"abc123".isalnum()` → `True`                  |
+| `isspace()`          | Toàn khoảng trắng                  | `"   ".isspace()` → `True`                     |
+
+# Câu 5
+def is_vowel(c):
+    # Kiểm tra nguyên âm, bao gồm chữ hoa và chữ thường
+    return c.lower() in 'aeiou'
+
+# Nhập chuỗi từ bàn phím
+s = input("Nhập vào một chuỗi: ")
+
+# Khởi tạo biến đếm
+upper_count = 0
+lower_count = 0
+digit_count = 0
+special_count = 0
+space_count = 0
+vowel_count = 0
+consonant_count = 0
+
+for c in s:
+    if c.isupper():
+        upper_count += 1
+        if is_vowel(c):
+            vowel_count += 1
+        else:
+            consonant_count += 1
+    elif c.islower():
+        lower_count += 1
+        if is_vowel(c):
+            vowel_count += 1
+        else:
+            consonant_count += 1
+    elif c.isdigit():
+        digit_count += 1
+    elif c.isspace():
+        space_count += 1
+    else:
+        special_count += 1
+
+# Xuất kết quả
+print("\nKết quả thống kê:")
+print("Chữ IN HOA:", upper_count)
+print("Chữ in thường:", lower_count)
+print("Chữ số:", digit_count)
+print("Ký tự đặc biệt:", special_count)
+print("Khoảng trắng:", space_count)
+print("Nguyên âm:", vowel_count)
+print("Phụ âm:", consonant_count)
+
+# Câu 6
+import re  # Dùng Regular Expression
+
+def NegativeNumberInStrings(s):
+    # Sử dụng regex để tìm các số âm: dấu - trước các chữ số
+    negatives = re.findall(r'-\d+', s)
+    # Chuyển các chuỗi thành số nguyên
+    negatives = [int(n) for n in negatives]
+    return negatives
+
+# Ví dụ sử dụng
+s = "abc-5xyz-12k9l--p"
+result = NegativeNumberInStrings(s)
+print("Các số nguyên âm trong chuỗi:", result)
+
+# Câu 7
+def ToiUuDanhTu(s):
+    # Loại bỏ khoảng trắng đầu và cuối
+    s = s.strip()
+    # Tách chuỗi theo khoảng trắng
+    words = s.split()
+    # Loại bỏ các từ rỗng và viết hoa chữ cái đầu mỗi từ
+    words = [word.capitalize() for word in words if word]
+    # Nối các từ lại bằng một khoảng trắng
+    return ' '.join(words)
+
+# Ví dụ sử dụng
+s = " TRần duY thAnH "
+result = ToiUuDanhTu(s)
+print("Chuỗi sau khi tối ưu:", result)
+
+# Câu 8
+import os
+
+# Hàm lấy tên file kèm phần mở rộng
+def LayTenFileDuongDan(path):
+    return os.path.basename(path)
+
+# Hàm lấy tên file không có phần mở rộng
+def LayTenFileKhongDuoi(path):
+    return os.path.splitext(os.path.basename(path))[0]
+
+# Ví dụ sử dụng
+duong_dan = r"d:\music\muabui.mp3"
+
+ten_file = LayTenFileDuongDan(duong_dan)
+ten_file_khong_duoi = LayTenFileKhongDuoi(duong_dan)
+
+print("Tên file:", ten_file)               # muabui.mp3
+print("Tên file không có đuôi:", ten_file_khong_duoi)  # muabui

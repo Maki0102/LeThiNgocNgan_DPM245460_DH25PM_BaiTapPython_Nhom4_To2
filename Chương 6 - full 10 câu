@@ -1,0 +1,243 @@
+# Câu 1
+from random import randrange
+
+# Hàm kiểm tra số nguyên tố
+def CheckPrime(n):
+    if n < 2:
+        return False
+    for i in range(2, int(n**0.5) + 1):
+        if n % i == 0:
+            return False
+    return True
+
+print("Chương trình xử lý List")
+
+# 1. Khởi tạo list
+n = int(input("Nhập số phần tử: "))
+lst = [randrange(-100, 100) for _ in range(n)]
+print("List ngẫu nhiên là:")
+print(lst)
+
+# 2. Thêm phần tử
+value = int(input("Mời bạn thêm số mới: "))
+lst.append(value)
+print("List sau khi thêm:", lst)
+
+# 3. Kiểm tra số k xuất hiện bao nhiêu lần
+k = int(input("Bạn muốn đếm số nào: "))
+dem = lst.count(k)
+print(k, "xuất hiện", dem, "lần trong list")
+
+# 4. Tính tổng các số nguyên tố
+demnt = 0
+tongnt = 0
+for x in lst:
+    if CheckPrime(x):
+        demnt += 1
+        tongnt += x
+print("Có", demnt, "số nguyên tố trong list")
+print("Tổng các số nguyên tố =", tongnt)
+
+# 5. Sắp xếp list
+lst.sort()
+print("List sau khi sort:")
+print(lst)
+
+# 6. Xóa list
+del lst
+try:
+    print("List sau khi xóa:", lst)
+except NameError:
+    print("List đã bị xóa và không còn tồn tại!")
+# Câu 2
+from random import randrange
+
+# Tạo list ngẫu nhiên
+lst = []
+n = int(input("Nhập số phần tử: "))
+for i in range(n):
+    lst.append(randrange(0, 100))
+print("List ngẫu nhiên:", lst)
+
+# Chèn thêm phần tử
+x = int(input("Mời bạn chèn thêm số mới: "))
+lst.append(x)
+print("List sau khi chèn:", lst)
+
+# Xóa tất cả phần tử = k
+k = int(input("Nhập số muốn xóa: "))
+while lst.count(k) > 0:
+    lst.remove(k)
+print("List sau khi xóa:", lst)
+
+# Kiểm tra list đối xứng
+def CheckDoiXung(lst):
+    for i in range(len(lst)):
+        if lst[i] != lst[len(lst)-i-1]:
+            return False
+    return True
+
+print("List đối xứng" if CheckDoiXung(lst) else "List không đối xứng")
+
+# Câu 3
+from random import randrange
+
+def TaoMaTran(m, n):
+    D = []
+    for i in range(m):
+        row = [randrange(100) for j in range(n)]
+        D.append(row)
+    return D
+
+def XuatMaTran(D):
+    for row in D:
+        print('\t'.join(map(str,row)))
+
+def LayDong(D, r):
+    return D[r]
+
+def LayCot(D, c):
+    return [D[i][c] for i in range(len(D))]
+
+def MAX(D):
+    return max(max(row) for row in D)
+
+# Nhập ma trận
+m = int(input("Nhập số dòng: "))
+n = int(input("Nhập số cột: "))
+D = TaoMaTran(m, n)
+XuatMaTran(D)
+
+r = int(input("Nhập dòng muốn xuất: "))
+print(LayDong(D, r))
+
+c = int(input("Nhập cột muốn xuất: "))
+print(LayCot(D, c))
+
+print("Số lớn nhất trong ma trận =", MAX(D))
+
+# Câu 4
+lst = [3, 0, 1, 5, 2]
+x = 2
+
+print("lst[0] =", lst[0])       # 3
+print("lst[3] =", lst[3])       # 5
+print("lst[x] =", lst[x])       # lst[2] = 1
+print("lst[-x] =", lst[-2])     # lst[-2] = 5
+print("lst[x+1] =", lst[x+1])   # lst[3] = 5
+print("lst[x]+1 =", lst[x]+1)   # 1+1 = 2
+print("lst[lst[x]] =", lst[lst[2]]) # lst[1] = 0
+print("lst[lst[lst[x]]] =", lst[lst[lst[2]]]) # lst[lst[1]] = lst[0] = 3
+
+# Câu 5
+lst = [20, 1, -34, 40, -8, 60, 1, 3]
+
+print(lst)          # [20, 1, -34, 40, -8, 60, 1, 3]
+print(lst[0:3])     # [20, 1, -34]
+print(lst[4:8])     # [-8, 60, 1, 3]
+print(lst[4:33])    # [-8, 60, 1, 3] (tối đa đến cuối list)
+print(lst[-5:-3])   # [40, -8]
+print(lst[-22:3])   # [20, 1, -34] (từ đầu đến index 3)
+print(lst[4:])      # [-8, 60, 1, 3]
+print(lst[:])       # toàn bộ list
+print(lst[:4])      # [20, 1, -34, 40]
+print(lst[1:5])     # [1, -34, 40, -8]
+print(-34 in lst)   # True
+print(-34 not in lst) # False
+print(len(lst))     # 8
+
+# Câu 6
+from random import randrange
+
+N = int(input("Nhập N: "))
+lst = []
+
+while len(lst) < N:
+    num = randrange(0, 100)
+    if num not in lst:
+        lst.append(num)
+
+print("List không trùng:", lst)
+
+#  Câu 7
+n = int(input("Nhập số lượng phần tử: "))
+lst = []
+
+for i in range(n):
+    while True:
+        x = int(input(f"Nhập phần tử thứ {i}: "))
+        if i == 0 or x > lst[i-1]:
+            lst.append(x)
+            break
+        else:
+            print("Phải nhập số lớn hơn số trước, nhập lại!")
+
+print("Dãy số tăng:", lst)
+
+# Câu 8
+n = int(input("Nhập số phần tử: "))
+M = [float(input(f"M[{i}] = ")) for i in range(n)]
+M.sort(reverse=True)
+print("Dãy số giảm dần:", M)
+
+# Câu 9
+def CheckPrime(n):
+    if n < 2:
+        return False
+    for i in range(2,int(n**0.5)+1):
+        if n % i == 0:
+            return False
+    return True
+
+M = [3,6,7,8,11,17,2,90,2,5,4,5,8]
+
+le = [x for x in M if x % 2 == 1]
+chan = [x for x in M if x % 2 == 0]
+nguyen_to = [x for x in M if CheckPrime(x)]
+khong_nt = [x for x in M if not CheckPrime(x)]
+
+print("Số lẻ:", le, "Tổng:", len(le))
+print("Số chẵn:", chan, "Tổng:", len(chan))
+print("Số nguyên tố:", nguyen_to)
+print("Không phải số nguyên tố:", khong_nt)
+
+# Câu 10
+def TaoMaTran(m, n):
+    from random import randrange
+    return [[randrange(0,100) for j in range(n)] for i in range(m)]
+
+def XuatMaTran(D):
+    for row in D:
+        print('\t'.join(map(str,row)))
+
+def CongMaTran(A,B):
+    m = len(A)
+    n = len(A[0])
+    C = [[A[i][j]+B[i][j] for j in range(n)] for i in range(m)]
+    return C
+
+def HoanViMaTran(D):
+    # Hoán vị: chuyển hàng thành cột
+    return [list(row) for row in zip(*D)]
+
+# Nhập ma trận
+m = int(input("Nhập số dòng: "))
+n = int(input("Nhập số cột: "))
+print("Tạo ma trận A")
+A = TaoMaTran(m,n)
+XuatMaTran(A)
+print("Tạo ma trận B")
+B = TaoMaTran(m,n)
+XuatMaTran(B)
+
+C = CongMaTran(A,B)
+print("Ma trận C = A + B")
+XuatMaTran(C)
+
+print("Hoán vị ma trận A:")
+XA = HoanViMaTran(A)
+XuatMaTran(XA)
+
+print("Hoán vị ma trận B:")
+XB = HoanViMaTran(B)
+XuatMaTran(XB)

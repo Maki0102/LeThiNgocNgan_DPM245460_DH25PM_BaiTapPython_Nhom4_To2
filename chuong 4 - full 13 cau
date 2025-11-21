@@ -1,0 +1,373 @@
+# câu 1
+import math
+
+def dien_tich_tam_giac(a, b, c):
+    # Kiểm tra điều kiện lập thành tam giác
+    if a + b <= c or a + c <= b or b + c <= a:
+        return "Ba cạnh không tạo thành tam giác hợp lệ!"
+
+    # Công thức Heron
+    p = (a + b + c) / 2
+    dt = math.sqrt(p * (p - a) * (p - b) * (p - c))
+    return dt
+
+# Chương trình chính
+a = float(input("Nhập cạnh a: "))
+b = float(input("Nhập cạnh b: "))
+c = float(input("Nhập cạnh c: "))
+
+kq = dien_tich_tam_giac(a, b, c)
+print("Diện tích tam giác là:", kq)
+
+# câu 2
+from random import randrange
+
+def choi_game_doan_so():
+    while True:
+        somay = randrange(1, 101)
+        solandoan = 0
+        win = False
+
+        while solandoan < 7:
+            solandoan += 1
+            try:
+                songuoi = int(input("Máy ra số [1..100], mời bạn đoán: "))
+            except:
+                print("Vui lòng nhập số!")
+                continue
+
+            print("Bạn đoán lần thứ", solandoan)
+
+            if songuoi == somay:
+                print("Chúc mừng bạn đoán đúng! Số máy là =", somay)
+                win = True
+                break
+
+            if songuoi < somay:
+                print("Bạn đoán sai, số máy > số bạn đoán")
+            else:
+                print("Bạn đoán sai, số máy < số bạn đoán")
+
+        if not win:
+            print("GAME OVER! Số máy là =", somay)
+
+        hoi = input("Tiếp tục chơi? (k để dừng): ")
+        if hoi.lower() == 'k':
+            break
+
+    print("Cám ơn bạn đã chơi Game!")
+
+# Gọi hàm để chạy game
+choi_game_doan_so()
+# câu 3
+def tinh_bmi(can_nang, chieu_cao):
+    # Tính BMI
+    bmi = can_nang / (chieu_cao ** 2)
+
+    # Phân loại theo bảng
+    if bmi < 18.5:
+        loai = "Gầy"
+        nguy_co = "Thấp"
+    elif bmi < 25:
+        loai = "Bình thường"
+        nguy_co = "Trung bình"
+    elif bmi < 30:
+        loai = "Thừa cân"
+        nguy_co = "Cao"
+    elif bmi < 35:
+        loai = "Béo phì độ I"
+        nguy_co = "Cao"
+    elif bmi < 40:
+        loai = "Béo phì độ II"
+        nguy_co = "Rất cao"
+    else:
+        loai = "Béo phì độ III"
+        nguy_co = "Nguy hiểm"
+
+    return bmi, loai, nguy_co
+    # Chương trình chính
+can_nang = float(input("Nhập cân nặng (kg): "))
+chieu_cao = float(input("Nhập chiều cao (m): "))
+
+bmi, loai, nguy_co = tinh_bmi(can_nang, chieu_cao)
+
+print(f"\nBMI = {bmi:.2f}")
+print("Phân loại:", loai)
+print("Nguy cơ:", nguy_co)
+
+# Câu 4
+
+def ROI(dt, cp):
+    return (dt - cp) / cp
+
+def GoiYDauTu(roi):
+    if roi >= 0.75:
+        return "Nên đầu tư"
+    else:
+        return "Không nên đầu tư"
+
+print("Chương trình tính ROI")
+
+dt = float(input("Nhập Doanh Thu: "))
+cp = float(input("Nhập Chi Phí: "))
+
+roi = ROI(dt, cp)
+
+print("Tỉ lệ ROI =", roi)
+print("==>", GoiYDauTu(roi))
+
+# Câu 5: Viết hàm đệ quy Fibonacci
+
+# Hàm trả về số Fibonacci tại vị trí thứ n
+def fibonacci(n):
+    if n <= 2:
+        return 1
+    return fibonacci(n - 1) + fibonacci(n - 2)
+
+# Hàm in ra danh sách dãy Fibonacci từ 1 đến n
+def listfibo(n):
+    for i in range(1, n + 1):
+        print(fibonacci(i), end='\t')
+
+# Chạy thử
+print("Fibonacci tại vị trí 9:", fibonacci(9))
+print("Dãy Fibonacci từ 1 đến 9:")
+listfibo(9)
+
+# Câu 6
+# Những giá trị có thể xuất hiện trong randrange(0,100) là:
+# 0, 1, 2, ..., 99
+
+print("4.5  -> Không xuất hiện")
+print("34   -> Có thể xuất hiện")
+print("-1   -> Không xuất hiện")
+print("100  -> Không xuất hiện")
+print("0    -> Có thể xuất hiện")
+print("99   -> Có thể xuất hiện")
+
+# câu 7
+import math
+
+def do_dai_AB(xa, ya, xb, yb):
+    d = math.sqrt((xb - xa)**2 + (yb - ya)**2)
+    return d
+
+# Chương trình chính
+xa = float(input("Nhập xA: "))
+ya = float(input("Nhập yA: "))
+
+xb = float(input("Nhập xB: "))
+yb = float(input("Nhập yB: "))
+
+d = do_dai_AB(xa, ya, xb, yb)
+print(f"Độ dài đoạn AB = {d:.4f}")
+
+# câu 8
+import math
+
+print("Chương trình tính log_a(x)")
+
+# Nhập a và x
+a = float(input("Nhập a: "))
+x = float(input("Nhập x: "))
+
+# Điều kiện: x > 0, a > 0 và a != 1
+if x > 0 and a > 0 and a != 1:
+    kq = math.log(x) / math.log(a)
+    print("log_", a, "(", x, ") =", kq)
+else:
+    print("Giá trị a và x không hợp lệ (x > 0, a > 0, a != 1)")
+
+# câu 9
+import math
+
+print("Chương trình tính căn bậc 2 lồng nhau")
+
+n = int(input("Nhập n: "))
+
+s = 0
+for i in range(n):
+    s = math.sqrt(2 + s)
+
+print("Kết quả S(n) =", s)
+
+# câu 10
+import time
+
+hinh1 = """
+*     *
+ *   *
+  * *
+   *
+  * *
+ *   *
+*     *
+"""
+
+hinh2 = """
+*******
+*     *
+*     *
+*******
+"""
+
+hinh3 = """
+   *
+  ***
+ *****
+*******
+"""
+
+hinh4 = """
+* * * * * *
+ * * * * *
+* * * * * *
+ * * * * *
+"""
+
+ds_hinh = [hinh1, hinh2, hinh3, hinh4]
+
+for h in ds_hinh:
+    print(h)
+    time.sleep(5)
+    print("\n" * 5)
+
+# Câu 11: Kiểm tra kết quả thực hiện
+
+def sum1(n):
+    # sum1(n) sẽ cộng 1 đúng n lần, nên kết quả luôn bằng n
+    s = 0
+    while n > 0:
+        s += 1
+        n -= 1
+    return s
+
+
+def sum2():
+    # sum2() dùng biến toàn cục val
+    # Hàm này làm giảm val xuống 0
+    # và trả về giá trị ban đầu của val
+    global val
+    s = 0
+    while val > 0:
+        s += 1
+        val -= 1
+    return s
+
+
+def sum3():
+    # sum3() đếm giảm từ val đến 1
+    # Không làm thay đổi val
+    # Kết quả bằng giá trị hiện tại của val
+    global val
+    s = 0
+    for i in range(val, 0, -1):
+        s += 1
+    return s
+
+
+print("=== TRƯỜNG HỢP 1 ===")
+def main1():
+    global val
+    val = 5   # đặt val ban đầu = 5
+    print(sum1(5))   # kết quả: 5
+    print(sum2())    # dùng val=5 → trả 5, val trở về 0
+    print(sum3())    # val=0 → sum3 trả 0
+main1()
+
+
+print("\n=== TRƯỜNG HỢP 2 ===")
+def main2():
+    global val
+    val = 5
+    print(sum1(5))   # trả 5
+    print(sum3())    # val=5 → trả 5, val không đổi
+    print(sum2())    # val=5 → trả 5, val trở về 0
+main2()
+
+
+print("\n=== TRƯỜNG HỢP 3 ===")
+def main3():
+    global val
+    val = 5
+    print(sum2())    # val=5 → trả 5, val trở về 0
+    print(sum1(5))   # trả 5
+    print(sum3())    # val=0 → trả 0
+main3()
+
+#===== TRƯỜNG HỢP 1 =====
+5
+5
+0
+
+===== TRƯỜNG HỢP 2 =====
+5
+5
+5
+
+===== TRƯỜNG HỢP 3 =====
+5
+5
+0
+
+# câu 12
+ result = []
+    
+    # 1. Từ a lên đến -1 (các số âm tăng dần)
+    for i in range(a, 0):
+        result.append(i)
+    
+    # 2. Từ b xuống đến 1 (các số dương giảm dần)
+    for i in range(b, 0, -1):
+        result.append(i)
+    
+    # 3. Hai số 0 ở giữa
+    result.append(0)
+    result.append(0)
+    
+    # 4. Xen kẽ dương → âm từ 1 đến (b-1)
+    for i in range(1, b):
+        result.append(i) # dương
+        result.append(-i) # âm
+    
+    return result
+
+# câu 13
+# Hàm tính tổng các ước số của n (không tính n)
+def tong_uoc(n):
+    s = 0
+    for i in range(1, n):
+        if n % i == 0:
+            s += i
+    return s
+
+# a) Kiểm tra số hoàn thiện
+def so_hoan_thien(n):
+    if tong_uoc(n) == n:
+        return True
+    return False
+
+# b) Kiểm tra số thịnh vượng
+def so_thinh_vuong(n):
+    if tong_uoc(n) > n:
+        return True
+    return False
+
+# --- Chương trình chính ---
+n = int(input("Nhập số nguyên dương n: "))
+
+print("Tổng các ước số của", n, "là:", tong_uoc(n))
+
+if so_hoan_thien(n):
+    print(n, "là số hoàn thiện")
+else:
+    print(n, "không phải số hoàn thiện")
+
+if so_thinh_vuong(n):
+    print(n, "là số thịnh vượng")
+else:
+    print(n, "không phải số thịnh vượng")
+
+
+
+

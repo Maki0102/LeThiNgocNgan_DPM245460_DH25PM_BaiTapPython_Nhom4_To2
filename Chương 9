@@ -1,0 +1,43 @@
+# predict_weight_from_height.py
+from __future__ import print_function
+import numpy as np
+from sklearn.linear_model import LinearRegression
+
+# Dữ liệu mẫu (chiều cao cm -> cân nặng kg)
+X = np.array([[147,150,153,158,163,165,168,170,173,175,178,180,183]]).T  # shape (13,1)
+y = np.array([49,50,51,54,58,59,60,62,63,64,66,67,68])                    # shape (13,)
+
+# Huấn luyện mô hình hồi quy tuyến tính
+model = LinearRegression()
+model.fit(X, y)
+
+# In hệ số mô hình
+w1 = model.coef_[0]
+w0 = model.intercept_
+print(f"Model: weight = {w1:.6f} * height + ({w0:.6f})")
+print("Hệ số (w1) = {:.6f}, hệ số chặn (w0) = {:.6f}".format(w1, w0))
+
+def predict_weight(height_cm):
+    """Trả về dự đoán cân nặng (float) cho chiều cao (cm)."""
+    # model.predict yêu cầu 2D array: [[height]]
+    return float(model.predict(np.array([[height_cm]]))[0])
+
+def ask_and_predict():
+    while True:
+        s = input("\nNhập chiều cao của bạn (cm) hoặc 'q' để thoát: ").strip()
+        if s.lower() in ('q','quit','exit'):
+            print("Thoát chương trình.")
+            break
+        try:
+            h = float(s)
+            if h <= 0:
+                print("Vui lòng nhập chiều cao dương.")
+                continue
+            pred = predict_weight(h)
+            print(f"Chiều cao: {h:.1f} cm → Dự đoán cân nặng: {pred:.2f} kg")
+        except ValueError:
+            print("Dữ liệu không hợp lệ. Vui lòng nhập một số (ví dụ: 170).")
+
+if __name__ == "__main__":
+    print("Dự đoán cân nặng từ chiều cao bằng Hồi quy tuyến tính (scikit-learn).")
+    ask_and_predict()

@@ -1,0 +1,909 @@
+#Câu 1
+import tkinter as tk
+from tkinter import messagebox
+
+def giai_phuong_trinh():
+    """
+    Hàm xử lý logic giải phương trình bậc nhất ax + b = 0.
+    """
+    try:
+        # Lấy giá trị hệ số a và b từ các ô nhập liệu (Entry)
+        a = float(entry_a.get())
+        b = float(entry_b.get())
+        
+        ket_qua = ""
+        
+        # Logic giải phương trình ax + b = 0
+        if a == 0:
+            if b == 0:
+                ket_qua = "Phương trình vô số nghiệm (0x + 0 = 0)."
+            else:
+                ket_qua = "Phương trình vô nghiệm (0x + b = 0, b ≠ 0)."
+        else:
+            # Phương trình có nghiệm duy nhất x = -b/a
+            x = -b / a
+            # Định dạng kết quả với 2 chữ số thập phân
+            ket_qua = f"x = {x:.2f}" 
+
+        # Xóa nội dung cũ và hiển thị kết quả mới lên ô kết quả
+        entry_ket_qua.config(state=tk.NORMAL) # Bật chế độ cho phép sửa đổi
+        entry_ket_qua.delete(0, tk.END)
+        entry_ket_qua.insert(0, ket_qua)
+        entry_ket_qua.config(state=tk.DISABLED) # Khóa lại để không cho người dùng sửa đổi
+        
+    except ValueError:
+        # Xử lý lỗi nếu người dùng nhập ký tự không phải là số
+        messagebox.showerror("Lỗi Nhập Liệu", "Vui lòng nhập giá trị số hợp lệ cho a và b.")
+        entry_ket_qua.config(state=tk.NORMAL)
+        entry_ket_qua.delete(0, tk.END)
+        entry_ket_qua.config(state=tk.DISABLED)
+
+def tiep_tuc():
+    """
+    Hàm xóa nội dung của các ô nhập liệu và kết quả để chuẩn bị cho lần giải tiếp theo.
+    """
+    entry_a.delete(0, tk.END)
+    entry_b.delete(0, tk.END)
+    entry_ket_qua.config(state=tk.NORMAL)
+    entry_ket_qua.delete(0, tk.END)
+    entry_ket_qua.config(state=tk.DISABLED)
+    entry_a.focus_set() # Đặt focus vào ô nhập a
+
+# --- THIẾT KẾ GIAO DIỆN ---
+root = tk.Tk()
+root.title("PTB1") # Thiết lập tiêu đề cửa sổ
+
+# Thiết lập padding và khung
+frame = tk.Frame(root, padx=10, pady=10)
+frame.pack(padx=10, pady=10)
+
+# 1. Tiêu đề chính
+label_title = tk.Label(frame, 
+                       text="Phương Trình Bậc 1", 
+                       font=("Arial", 16, "bold"), 
+                       fg="red") # Màu đỏ như trong hình
+label_title.grid(row=0, column=0, columnspan=2, pady=10)
+
+# 2. Hàng nhập liệu a
+label_a = tk.Label(frame, text="Hệ số a:")
+label_a.grid(row=1, column=0, sticky=tk.W, pady=5)
+entry_a = tk.Entry(frame, width=20)
+entry_a.grid(row=1, column=1, pady=5)
+# Thiết lập giá trị mặc định theo hình minh họa
+entry_a.insert(0, "5") 
+
+# 3. Hàng nhập liệu b
+label_b = tk.Label(frame, text="Hệ số b:")
+label_b.grid(row=2, column=0, sticky=tk.W, pady=5)
+entry_b = tk.Entry(frame, width=20)
+entry_b.grid(row=2, column=1, pady=5)
+# Thiết lập giá trị mặc định theo hình minh họa
+entry_b.insert(0, "9") 
+
+# 4. Khu vực nút bấm (Button)
+button_frame = tk.Frame(frame)
+button_frame.grid(row=3, column=0, columnspan=2, pady=10)
+
+button_giai = tk.Button(button_frame, text="Giải", command=giai_phuong_trinh, width=8)
+button_giai.pack(side=tk.LEFT, padx=5)
+
+button_tiep = tk.Button(button_frame, text="Tiếp", command=tiep_tuc, width=8)
+button_tiep.pack(side=tk.LEFT, padx=5)
+
+button_thoat = tk.Button(button_frame, text="Thoát", command=root.destroy, width=8)
+button_thoat.pack(side=tk.LEFT, padx=5)
+
+# 5. Hàng kết quả
+label_ket_qua = tk.Label(frame, text="Kết quả:")
+label_ket_qua.grid(row=4, column=0, sticky=tk.W, pady=5)
+
+entry_ket_qua = tk.Entry(frame, width=20)
+entry_ket_qua.grid(row=4, column=1, pady=5)
+# Khóa ô kết quả để người dùng không thể nhập trực tiếp
+entry_ket_qua.config(state=tk.DISABLED) 
+
+# Chạy vòng lặp sự kiện chính của Tkinter
+root.mainloop()
+
+#Câu 2
+import tkinter as tk
+from tkinter import messagebox
+import math
+
+def giai_phuong_trinh_bac_hai():
+    """
+    Hàm xử lý logic giải phương trình bậc hai ax^2 + bx + c = 0.
+    """
+    try:
+        # 1. Lấy giá trị hệ số a, b, c từ các ô nhập liệu
+        a = float(entry_a.get())
+        b = float(entry_b.get())
+        c = float(entry_c.get())
+        
+        ket_qua = ""
+        
+        # 2. Xử lý trường hợp đặc biệt: Phương trình bậc nhất (a = 0)
+        if a == 0:
+            if b == 0:
+                if c == 0:
+                    ket_qua = "Phương trình vô số nghiệm (0x^2 + 0x + 0 = 0)."
+                else:
+                    ket_qua = "Phương trình vô nghiệm (c ≠ 0)."
+            else:
+                # Phương trình bậc nhất: bx + c = 0 -> x = -c/b
+                x = -c / b
+                ket_qua = f"Đây là phương trình bậc nhất. x = {x:.2f}"
+        
+        # 3. Xử lý trường hợp Phương trình bậc hai (a ≠ 0)
+        else:
+            # Tính Delta: Δ = b^2 - 4ac
+            delta = b**2 - 4 * a * c
+            
+            if delta < 0:
+                ket_qua = "Phương trình vô nghiệm thực (Δ < 0)."
+            elif delta == 0:
+                # Nghiệm kép: x1 = x2 = -b / (2a)
+                x = -b / (2 * a)
+                ket_qua = f"Phương trình có nghiệm kép: x1 = x2 = {x:.2f}"
+            else:
+                # Hai nghiệm phân biệt: x1, x2 = (-b ± √Δ) / (2a)
+                x1 = (-b + math.sqrt(delta)) / (2 * a)
+                x2 = (-b - math.sqrt(delta)) / (2 * a)
+                # Định dạng kết quả theo yêu cầu (x1=-1.5;x2=1.0)
+                ket_qua = f"x1 = {x1:.2f}; x2 = {x2:.2f}"
+
+        # 4. Hiển thị kết quả
+        entry_ket_qua.config(state=tk.NORMAL) 
+        entry_ket_qua.delete(0, tk.END)
+        entry_ket_qua.insert(0, ket_qua)
+        entry_ket_qua.config(state=tk.DISABLED)
+        
+    except ValueError:
+        # Xử lý lỗi nếu người dùng nhập ký tự không phải là số
+        messagebox.showerror("Lỗi Nhập Liệu", "Vui lòng nhập giá trị số hợp lệ cho a, b và c.")
+        entry_ket_qua.config(state=tk.NORMAL)
+        entry_ket_qua.delete(0, tk.END)
+        entry_ket_qua.config(state=tk.DISABLED)
+
+def tiep_tuc():
+    """
+    Hàm xóa nội dung của các ô nhập liệu và kết quả.
+    """
+    entry_a.delete(0, tk.END)
+    entry_b.delete(0, tk.END)
+    entry_c.delete(0, tk.END)
+    entry_ket_qua.config(state=tk.NORMAL)
+    entry_ket_qua.delete(0, tk.END)
+    entry_ket_qua.config(state=tk.DISABLED)
+    entry_a.focus_set()
+
+# --- THIẾT KẾ GIAO DIỆN ---
+root = tk.Tk()
+root.title("PTB2") # Thiết lập tiêu đề cửa sổ
+root.resizable(False, False) # Không cho phép thay đổi kích thước cửa sổ
+
+# Thiết lập padding và khung
+frame = tk.Frame(root, padx=10, pady=10)
+frame.pack(padx=10, pady=10)
+
+# 1. Tiêu đề chính
+label_title = tk.Label(frame, 
+                       text="Phương Trình Bậc 2", 
+                       font=("Arial", 16, "bold"), 
+                       fg="blue") # Màu xanh dương
+label_title.grid(row=0, column=0, columnspan=2, pady=10)
+
+# 2. Hàng nhập liệu a
+label_a = tk.Label(frame, text="Hệ số a:")
+label_a.grid(row=1, column=0, sticky=tk.W, pady=5)
+entry_a = tk.Entry(frame, width=25)
+entry_a.grid(row=1, column=1, pady=5)
+entry_a.insert(0, "4") # Giá trị mặc định
+
+# 3. Hàng nhập liệu b
+label_b = tk.Label(frame, text="Hệ số b:")
+label_b.grid(row=2, column=0, sticky=tk.W, pady=5)
+entry_b = tk.Entry(frame, width=25)
+entry_b.grid(row=2, column=1, pady=5)
+entry_b.insert(0, "2") # Giá trị mặc định
+
+# 4. Hàng nhập liệu c
+label_c = tk.Label(frame, text="Hệ số c:")
+label_c.grid(row=3, column=0, sticky=tk.W, pady=5)
+entry_c = tk.Entry(frame, width=25)
+entry_c.grid(row=3, column=1, pady=5)
+entry_c.insert(0, "-6") # Giá trị mặc định
+
+# 5. Khu vực nút bấm (Button)
+button_frame = tk.Frame(frame)
+button_frame.grid(row=4, column=0, columnspan=2, pady=10)
+
+button_giai = tk.Button(button_frame, text="Giải", command=giai_phuong_trinh_bac_hai, width=8)
+button_giai.pack(side=tk.LEFT, padx=5)
+
+button_tiep = tk.Button(button_frame, text="Tiếp", command=tiep_tuc, width=8)
+button_tiep.pack(side=tk.LEFT, padx=5)
+
+button_thoat = tk.Button(button_frame, text="Thoát", command=root.destroy, width=8)
+button_thoat.pack(side=tk.LEFT, padx=5)
+
+# 6. Hàng kết quả
+label_ket_qua = tk.Label(frame, text="Kết quả:")
+label_ket_qua.grid(row=5, column=0, sticky=tk.W, pady=5)
+
+entry_ket_qua = tk.Entry(frame, width=25)
+entry_ket_qua.grid(row=5, column=1, pady=5)
+entry_ket_qua.config(state=tk.DISABLED) # Khóa ô kết quả
+
+# Thực hiện giải ngay khi chạy để hiển thị kết quả mẫu
+giai_phuong_trinh_bac_hai() 
+
+# Chạy vòng lặp sự kiện chính của Tkinter
+root.mainloop()
+
+#Câu 3
+import tkinter as tk
+from tkinter import messagebox
+
+def tinh_toan(phep_toan):
+    """
+    Hàm xử lý phép tính dựa trên nút được bấm.
+    :param phep_toan: Chuỗi xác định phép toán ('+', '-', '*', '/')
+    """
+    try:
+        # Lấy giá trị số a và số b
+        a = float(entry_a.get())
+        b = float(entry_b.get())
+        ket_qua = 0
+        
+        # Thực hiện phép tính
+        if phep_toan == '+':
+            ket_qua = a + b
+        elif phep_toan == '-':
+            ket_qua = a - b
+        elif phep_toan == '*':
+            ket_qua = a * b
+        elif phep_toan == '/':
+            if b == 0:
+                # Xử lý trường hợp chia cho 0
+                messagebox.showerror("Lỗi Toán Học", "Không thể chia cho số 0.")
+                hien_thi_ket_qua("LỖI CHIA 0")
+                return
+            ket_qua = a / b
+        
+        # Hiển thị kết quả
+        hien_thi_ket_qua(f"{ket_qua:.2f}") # Định dạng kết quả 2 chữ số thập phân
+        
+    except ValueError:
+        # Xử lý lỗi nếu người dùng nhập ký tự không phải là số
+        messagebox.showerror("Lỗi Nhập Liệu", "Vui lòng nhập giá trị số hợp lệ cho a và b.")
+        hien_thi_ket_qua("")
+
+def hien_thi_ket_qua(text):
+    """
+    Hàm hiển thị kết quả lên ô Entry.
+    """
+    entry_ket_qua.config(state=tk.NORMAL) # Bật chế độ cho phép sửa đổi
+    entry_ket_qua.delete(0, tk.END)
+    entry_ket_qua.insert(0, text)
+    entry_ket_qua.config(state=tk.DISABLED) # Khóa lại
+
+# --- THIẾT KẾ GIAO DIỆN ---
+root = tk.Tk()
+root.title("tk")
+root.resizable(False, False) 
+
+# Khung chứa toàn bộ giao diện
+frame = tk.Frame(root, padx=10, pady=10)
+frame.pack(padx=10, pady=10)
+
+# 1. Tiêu đề chính
+label_title = tk.Label(frame, 
+                       text="Cộng trừ nhân chia", 
+                       font=("Arial", 16, "bold"))
+label_title.grid(row=0, column=0, columnspan=3, pady=10)
+
+# 2. Khung chứa các nút phép toán (Cột 0)
+op_frame = tk.Frame(frame)
+op_frame.grid(row=1, column=0, rowspan=4, sticky=tk.N, padx=10)
+
+# 3. Các ô nhập liệu và kết quả (Cột 1 và 2)
+# Hàng số a
+label_a = tk.Label(frame, text="số a:")
+label_a.grid(row=1, column=1, sticky=tk.E, pady=5)
+entry_a = tk.Entry(frame, width=15)
+entry_a.grid(row=1, column=2, pady=5)
+entry_a.insert(0, "6") # Giá trị mặc định
+
+# Hàng số b
+label_b = tk.Label(frame, text="số b:")
+label_b.grid(row=2, column=1, sticky=tk.E, pady=5)
+entry_b = tk.Entry(frame, width=15)
+entry_b.grid(row=2, column=2, pady=5)
+entry_b.insert(0, "7") # Giá trị mặc định
+
+# Hàng kết quả
+label_ket_qua = tk.Label(frame, text="kết quả:")
+label_ket_qua.grid(row=3, column=1, sticky=tk.E, pady=5)
+entry_ket_qua = tk.Entry(frame, width=15)
+entry_ket_qua.grid(row=3, column=2, pady=5)
+entry_ket_qua.config(state=tk.DISABLED) 
+hien_thi_ket_qua("-1.0") # Kết quả mẫu (6 - 7 = -1.0)
+
+# 4. Tạo các nút bấm trong op_frame
+
+# Nút Cộng
+btn_cong = tk.Button(op_frame, text="Cộng", width=8, command=lambda: tinh_toan('+'))
+btn_cong.pack(pady=5)
+
+# Nút Trừ
+btn_tru = tk.Button(op_frame, text="Trừ", width=8, command=lambda: tinh_toan('-'))
+btn_tru.pack(pady=5)
+
+# Nút Nhân
+btn_nhan = tk.Button(op_frame, text="Nhân", width=8, command=lambda: tinh_toan('*'))
+btn_nhan.pack(pady=5)
+
+# Nút Chia
+btn_chia = tk.Button(op_frame, text="Chia", width=8, command=lambda: tinh_toan('/'))
+btn_chia.pack(pady=5)
+
+# 5. Nút Thoát (Cột 2)
+btn_thoat = tk.Button(frame, text="Thoát", width=8, command=root.destroy)
+btn_thoat.grid(row=4, column=2, sticky=tk.E, pady=10)
+
+# Chạy vòng lặp sự kiện chính của Tkinter
+root.mainloop()
+
+#Câu 4
+import tkinter as tk
+from tkinter import messagebox
+
+# Biến toàn cục để lưu chuỗi phép tính hiện tại
+expression = ""
+
+def press(num):
+    """
+    Hàm xử lý khi người dùng bấm các nút số (0-9), dấu thập phân (.), hoặc phép toán (+, -, *, /).
+    """
+    global expression
+    # Nối số/ký tự vào chuỗi phép tính
+    expression += str(num)
+    # Cập nhật hiển thị lên ô kết quả
+    equation.set(expression)
+
+def equalpress():
+    """
+    Hàm xử lý khi người dùng bấm nút '=' để tính toán kết quả.
+    """
+    try:
+        global expression
+        
+        # Hàm eval() trong Python dùng để tính toán chuỗi biểu thức.
+        total = str(eval(expression))
+        
+        # Hiển thị kết quả
+        equation.set(total)
+        
+        # Đặt chuỗi phép tính mới bằng kết quả để tiếp tục tính toán
+        expression = total
+
+    except ZeroDivisionError:
+        equation.set("Lỗi Chia 0")
+        expression = ""
+    except SyntaxError:
+        equation.set("Lỗi Cú Pháp")
+        expression = ""
+    except Exception as e:
+        equation.set("Lỗi")
+        expression = ""
+
+def clear():
+    """
+    Hàm xóa toàn bộ chuỗi phép tính và kết quả hiển thị.
+    """
+    global expression
+    expression = ""
+    equation.set("")
+
+# --- THIẾT KẾ GIAO DIỆN ---
+root = tk.Tk()
+root.title("Calculator")
+# Khóa thay đổi kích thước cửa sổ
+root.resizable(False, False) 
+
+# Khung chứa toàn bộ giao diện
+frame = tk.Frame(root, padx=5, pady=5)
+frame.pack(padx=10, pady=10)
+
+# Biến String để liên kết với ô hiển thị kết quả
+equation = tk.StringVar()
+
+# 1. Ô hiển thị kết quả (Entry)
+# columnspan=4 để ô này chiếm toàn bộ chiều rộng (4 cột)
+display_entry = tk.Entry(frame, textvariable=equation, justify='right', font=('Arial', 14), bd=5, relief=tk.SUNKEN)
+display_entry.grid(row=0, column=0, columnspan=4, pady=10, sticky="ew")
+
+# 2. Định nghĩa các nút bấm theo cấu trúc lưới
+# Các nút số (từ 1 đến 9) và dấu thập phân
+buttons = [
+    '1', '2', '3',
+    '4', '5', '6',
+    '7', '8', '9',
+    '-', '0', '.', # Dấu trừ (-) được dùng làm dấu âm/phân cách
+]
+
+# 3. Tạo các nút số và dấu thập phân
+r = 1 # Bắt đầu từ hàng 1
+c = 0 # Bắt đầu từ cột 0
+for button in buttons:
+    tk.Button(frame, text=button, width=5, height=2, 
+              command=lambda b=button: press(b)).grid(row=r, column=c, padx=5, pady=5)
+    c += 1
+    if c > 2:
+        c = 0
+        r += 1
+
+# 4. Tạo các nút Phép toán (+, -, *, /) và (=)
+r = 5 # Hàng cho các phép toán
+c = 0
+ops = ['+', '-', '*', '/', '=']
+
+for op in ops:
+    if op == '=':
+        # Nút '=' gọi hàm equalpress
+        tk.Button(frame, text=op, width=5, height=2, 
+                  command=equalpress, fg='red').grid(row=r, column=c, padx=5, pady=5)
+    else:
+        # Các nút phép toán gọi hàm press
+        tk.Button(frame, text=op, width=5, height=2, 
+                  command=lambda o=op: press(o), fg='blue').grid(row=r, column=c, padx=5, pady=5)
+    c += 1
+
+# 5. Nút Xóa (Clear)
+# columnspan=4 để nút này chiếm toàn bộ chiều rộng
+tk.Button(frame, text='Clr', width=22, height=2, command=clear, bg='orange').grid(row=6, column=0, columnspan=4, pady=10)
+
+# Chạy vòng lặp sự kiện chính của Tkinter
+root.mainloop()
+
+#Câu 5
+import tkinter as tk
+from tkinter import messagebox
+
+def xu_ly_ok():
+    """
+    Hàm xử lý khi người dùng bấm nút OK. 
+    (Ở đây chỉ là thông báo mẫu, không có logic đổi mật khẩu thực tế)
+    """
+    old_pass = entry_old.get()
+    new_pass = entry_new.get()
+    confirm_pass = entry_confirm.get()
+    
+    if not old_pass or not new_pass or not confirm_pass:
+        messagebox.showerror("Lỗi", "Vui lòng nhập đầy đủ các trường.")
+        return
+
+    if new_pass != confirm_pass:
+        messagebox.showerror("Lỗi", "Mật khẩu mới và Xác nhận mật khẩu không khớp.")
+    else:
+        messagebox.showinfo("Thành công", "Đã nhận thông tin đổi mật khẩu:\n"
+                                          f"Mật khẩu cũ: {old_pass}\n"
+                                          f"Mật khẩu mới: {new_pass}")
+
+def xu_ly_cancel():
+    """
+    Hàm xử lý khi người dùng bấm nút Cancel.
+    """
+    root.destroy()
+
+# --- THIẾT KẾ GIAO DIỆN ---
+root = tk.Tk()
+# Đặt tiêu đề và màu nền giống Windows cũ
+root.title("Enter New Password")
+root.config(bg="#C0C0C0") # Màu nền xám cổ điển
+root.resizable(False, False) 
+
+# Khung chứa toàn bộ giao diện
+frame = tk.Frame(root, padx=10, pady=10, bg="#C0C0C0")
+frame.pack(padx=20, pady=20)
+
+# 1. Tiêu đề chính
+# Sử dụng font và màu sắc đặc trưng của tiêu đề Windows
+label_title = tk.Label(frame, 
+                       text="Enter New Password", 
+                       font=("Arial", 10, "bold"), 
+                       bg="#800080", # Màu tím (Purple)
+                       fg="white", # Chữ trắng
+                       padx=5, pady=2)
+# Sticky "ew" để nhãn tiêu đề chiếm toàn bộ chiều rộng (2 cột)
+label_title.grid(row=0, column=0, columnspan=2, sticky=tk.EW, pady=(0, 15))
+
+
+# 2. Các trường nhập liệu (Labels và Entries)
+
+# Old Password
+label_old = tk.Label(frame, text="Old Password:", anchor=tk.W, bg="#C0C0C0")
+label_old.grid(row=1, column=0, sticky=tk.W, pady=5, padx=5)
+entry_old = tk.Entry(frame, width=20, show="*") # show="*" để ẩn mật khẩu
+entry_old.grid(row=1, column=1, pady=5, padx=5)
+
+# New Password
+label_new = tk.Label(frame, text="New Password:", anchor=tk.W, bg="#C0C0C0")
+label_new.grid(row=2, column=0, sticky=tk.W, pady=5, padx=5)
+entry_new = tk.Entry(frame, width=20, show="*")
+entry_new.grid(row=2, column=1, pady=5, padx=5)
+
+# Enter New Password Again
+label_confirm = tk.Label(frame, text="Enter New Password Again:", anchor=tk.W, bg="#C0C0C0")
+label_confirm.grid(row=3, column=0, sticky=tk.W, pady=5, padx=5)
+entry_confirm = tk.Entry(frame, width=20, show="*")
+entry_confirm.grid(row=3, column=1, pady=5, padx=5)
+
+
+# 3. Các nút (Buttons)
+button_frame = tk.Frame(frame, bg="#C0C0C0")
+button_frame.grid(row=4, column=0, columnspan=2, pady=20)
+
+# Nút OK
+button_ok = tk.Button(button_frame, text="OK", width=10, command=xu_ly_ok)
+button_ok.pack(side=tk.LEFT, padx=10)
+
+# Nút Cancel
+button_cancel = tk.Button(button_frame, text="Cancel", width=10, command=xu_ly_cancel)
+button_cancel.pack(side=tk.LEFT, padx=10)
+
+
+# Chạy vòng lặp sự kiện chính của Tkinter
+root.mainloop()
+
+
+$Câu 6
+import tkinter as tk
+
+def tao_nut_voi_style(parent_frame, text, row, col, borderwidth, relief_style):
+    """
+    Tạo một nút Button với borderwidth và relief (style) chỉ định.
+    """
+    # Màu nền vàng cho các nút có borderwidth lớn hơn 0 để dễ thấy viền
+    bg_color = 'lightgray' if borderwidth == 0 else 'lightblue'
+    
+    btn = tk.Button(parent_frame, 
+                    text=text, 
+                    width=8, 
+                    height=1,
+                    bd=borderwidth,      # borderwidth
+                    relief=relief_style, # style (relief)
+                    bg=bg_color,
+                    fg='black')
+    btn.grid(row=row, column=col, padx=5, pady=5, sticky=tk.EW)
+
+
+# --- THIẾT KẾ GIAO DIỆN ---
+root = tk.Tk()
+root.title("frame 2")
+root.resizable(False, False)
+
+# Khung chứa toàn bộ giao diện
+frame = tk.Frame(root, padx=10, pady=10)
+frame.pack(padx=10, pady=10)
+
+# Danh sách các kiểu Relief (Style)
+relief_styles = ['raised', 'sunken', 'flat', 'ridge', 'groove', 'solid']
+border_widths = [0, 1, 2, 3, 4]
+
+# 1. Ghi tiêu đề cột (Relief Styles)
+for col, style in enumerate(relief_styles, start=1):
+    label = tk.Label(frame, text=style, font=('Arial', 10, 'bold'))
+    label.grid(row=0, column=col, padx=5, pady=5)
+
+# 2. Tạo các nút (Grid)
+for row_index, bw in enumerate(border_widths, start=1):
+    # Ghi tiêu đề hàng (Borderwidth)
+    label_bw = tk.Label(frame, text=f"borderwidth = {bw}", font=('Arial', 10))
+    label_bw.grid(row=row_index, column=0, padx=5, pady=5, sticky=tk.W)
+    
+    # Tạo các nút theo từng style và borderwidth
+    for col_index, style in enumerate(relief_styles, start=1):
+        # Đặc biệt, thay đổi màu nền cho style 'solid' để dễ nhận biết
+        text = style
+        if style == 'solid' and bw > 0:
+            bg_color = 'white'
+            fg_color = 'black'
+            # Sử dụng một Frame để bao quanh nút Solid với viền đen đậm
+            solid_frame = tk.Frame(frame, bd=2, relief=tk.SOLID) 
+            solid_frame.grid(row=row_index, column=col_index, padx=5, pady=5)
+            
+            btn = tk.Button(solid_frame, 
+                            text=style, 
+                            width=6, 
+                            height=1,
+                            bd=bw,
+                            relief=style,
+                            bg='white',
+                            fg='black')
+            btn.pack(padx=1, pady=1) # Đặt nút vào Frame
+            
+        else:
+            tao_nut_voi_style(frame, 
+                              text, 
+                              row_index, 
+                              col_index, 
+                              bw, 
+                              style)
+
+# Chạy vòng lặp sự kiện chính của Tkinter
+root.mainloop()
+
+#Câu 7
+import tkinter as tk
+from tkinter import messagebox
+
+def tinh_can_chi(nam_duong):
+    """
+    Tính năm Âm Lịch (Can Chi) từ năm Dương Lịch.
+    """
+    # 10 Can
+    can = ["Canh", "Tân", "Nhâm", "Quý", "Giáp", "Ất", "Bính", "Đinh", "Mậu", "Kỷ"]
+    # 12 Chi (Tức 12 con giáp)
+    chi = ["Thân", "Dậu", "Tuất", "Hợi", "Tý", "Sửu", "Dần", "Mão", "Thìn", "Tỵ", "Ngọ", "Mùi"]
+    
+    # Công thức tính:
+    # Index Can = (Năm DL - 3) % 10  (Hoặc Năm DL % 10 - 2 nếu Năm DL % 10 >= 2)
+    # Index Chi = (Năm DL - 3) % 12  (Hoặc Năm DL % 12 - 4 nếu Năm DL % 12 >= 4)
+    index_can = nam_duong % 10
+    index_chi = nam_duong % 12
+    
+    # Điều chỉnh index theo mảng Can Chi đã định nghĩa (bắt đầu từ 0)
+    # 1982 % 10 = 2 -> Nhâm (index 2)
+    # 1982 % 12 = 10 -> Tuất (index 10)
+    
+    # Ta dùng công thức đơn giản hơn:
+    ten_can = can[index_can]
+    ten_chi = chi[index_chi]
+    
+    return f"{ten_can} {ten_chi}"
+
+def chuyen_doi():
+    """
+    Hàm xử lý sự kiện khi bấm nút 'Chuyển'.
+    """
+    try:
+        nam_duong = int(entry_duong.get())
+        
+        if nam_duong <= 0:
+            messagebox.showerror("Lỗi", "Năm phải là số dương.")
+            hien_thi_am("LỖI")
+            return
+
+        nam_am = tinh_can_chi(nam_duong)
+        hien_thi_am(nam_am)
+        
+    except ValueError:
+        messagebox.showerror("Lỗi Nhập Liệu", "Vui lòng nhập năm dương lịch là số nguyên.")
+        hien_thi_am("LỖI")
+
+def hien_thi_am(text):
+    """
+    Hàm hiển thị kết quả năm âm lịch.
+    """
+    label_am_ket_qua.config(text=text)
+
+# --- THIẾT KẾ GIAO DIỆN ---
+root = tk.Tk()
+root.title("Chuyển đổi Âm Dương")
+root.resizable(False, False)
+
+# Khung chứa toàn bộ giao diện, màu vàng
+frame = tk.Frame(root, padx=20, pady=20, bg='yellow')
+frame.pack(padx=10, pady=10)
+
+# 1. Hàng Nhập năm Dương
+tk.Label(frame, text="Nhập năm dương:", bg='yellow').grid(row=0, column=0, sticky=tk.W, pady=5)
+entry_duong = tk.Entry(frame, width=10)
+entry_duong.grid(row=0, column=1, pady=5, padx=5)
+entry_duong.insert(0, "1982") # Giá trị mẫu
+
+btn_chuyen = tk.Button(frame, text="Chuyển", command=chuyen_doi)
+btn_chuyen.grid(row=0, column=2, pady=5, padx=5)
+
+# 2. Hàng Kết quả năm Âm
+tk.Label(frame, text="Năm âm:", bg='yellow').grid(row=1, column=0, sticky=tk.W, pady=5)
+label_am_ket_qua = tk.Label(frame, text="Nhâm Tuất", bg='yellow', font=('Arial', 10, 'bold'))
+label_am_ket_qua.grid(row=1, column=1, columnspan=2, sticky=tk.W, pady=5)
+
+# Gọi hàm để hiển thị kết quả mẫu ban đầu
+chuyen_doi() 
+
+# Chạy vòng lặp sự kiện chính của Tkinter
+root.mainloop()
+
+
+#Câu 8
+import tkinter as tk
+from tkinter import messagebox
+
+def chuyen_doi_nhiet_do():
+    """
+    Hàm xử lý chuyển đổi từ độ F sang độ C.
+    """
+    try:
+        # Lấy giá trị độ F
+        do_f = float(entry_f.get())
+        
+        # Công thức chuyển đổi: C = (F - 32) * 5/9
+        do_c = (do_f - 32) * 5 / 9
+        
+        # Định dạng kết quả
+        ket_qua_c = f"{do_c:.2f} °C" 
+        
+        hien_thi_do_c(ket_qua_c)
+        
+    except ValueError:
+        messagebox.showerror("Lỗi Nhập Liệu", "Vui lòng nhập giá trị số hợp lệ cho độ F.")
+        hien_thi_do_c("LỖI")
+
+def hien_thi_do_c(text):
+    """
+    Hàm hiển thị kết quả độ C.
+    """
+    label_c_ket_qua.config(text=text)
+
+# --- THIẾT KẾ GIAO DIỆN ---
+root = tk.Tk()
+root.title("Fahrenheit to Celsius")
+root.resizable(False, False)
+
+# Khung chứa toàn bộ giao diện, màu vàng
+frame = tk.Frame(root, padx=20, pady=20, bg='yellow')
+frame.pack(padx=10, pady=10)
+
+# 1. Hàng Nhập độ F
+tk.Label(frame, text="Nhập độ F:", bg='yellow').grid(row=0, column=0, sticky=tk.W, pady=5)
+entry_f = tk.Entry(frame, width=10)
+entry_f.grid(row=0, column=1, pady=5, padx=5)
+entry_f.insert(0, "350") # Giá trị mẫu
+
+btn_chuyen = tk.Button(frame, text="Chuyển", command=chuyen_doi_nhiet_do)
+btn_chuyen.grid(row=0, column=2, pady=5, padx=5)
+
+# 2. Hàng Kết quả độ C
+tk.Label(frame, text="Độ C:", bg='yellow').grid(row=1, column=0, sticky=tk.W, pady=5)
+label_c_ket_qua = tk.Label(frame, text="Độ C ở đây", bg='yellow', font=('Arial', 10, 'bold'))
+label_c_ket_qua.grid(row=1, column=1, columnspan=2, sticky=tk.W, pady=5)
+
+# Gọi hàm để hiển thị kết quả mẫu ban đầu
+chuyen_doi_nhiet_do()
+
+# Chạy vòng lặp sự kiện chính của Tkinter
+root.mainloop()
+
+#Câu 9
+import tkinter as tk
+from tkinter import messagebox
+
+def tinh_bmi():
+    """
+    Hàm xử lý sự kiện khi bấm nút 'Tính BMI'.
+    """
+    try:
+        # Lấy dữ liệu và chuyển đổi sang float
+        chieu_cao = float(entry_cao.get())
+        can_nang = float(entry_nang.get())
+
+        # Kiểm tra giá trị hợp lệ
+        if chieu_cao <= 0 or can_nang <= 0:
+            messagebox.showerror("Lỗi", "Chiều cao và cân nặng phải là số dương.")
+            reset_ket_qua()
+            return
+            
+        # 1. Tính BMI
+        # Công thức: BMI = Weight (kg) / (Height (m) * Height (m))
+        bmi = can_nang / (chieu_cao ** 2)
+        
+        # 2. Phân loại tình trạng
+        tinh_trang, nguy_co = phan_loai_bmi(bmi)
+
+        # 3. Hiển thị kết quả
+        hien_thi_ket_qua(f"{bmi:.2f}", tinh_trang, nguy_co)
+
+    except ValueError:
+        messagebox.showerror("Lỗi Nhập Liệu", "Vui lòng nhập chiều cao (mét) và cân nặng (kg) là số.")
+        reset_ket_qua()
+
+def phan_loai_bmi(bmi):
+    """
+    Phân loại tình trạng cân nặng và nguy cơ theo chỉ số BMI.
+    """
+    if bmi < 18.5:
+        return "Gầy", "Cao"
+    elif 18.5 <= bmi <= 24.9:
+        return "Bình thường", "Thấp"
+    elif 25 <= bmi <= 29.9:
+        return "Mập", "Trung bình"
+    else: # 30 or higher
+        return "Béo phì", "Rất cao"
+
+def hien_thi_ket_qua(bmi_val, tinh_trang_val, nguy_co_val):
+    """
+    Cập nhật các trường kết quả trên giao diện.
+    """
+    # Xóa và chèn lại giá trị mới vào ô BMI
+    entry_bmi.delete(0, tk.END)
+    entry_bmi.insert(0, bmi_val)
+    
+    # Cập nhật nhãn Tình trạng
+    label_tinh_trang_val.config(text=tinh_trang_val)
+    
+    # Cập nhật nhãn Nguy cơ
+    label_nguy_co_val.config(text=nguy_co_val)
+
+def reset_ket_qua():
+    """
+    Đặt lại các trường kết quả về trạng thái mặc định.
+    """
+    entry_bmi.delete(0, tk.END)
+    entry_bmi.insert(0, "")
+    label_tinh_trang_val.config(text="")
+    label_nguy_co_val.config(text="")
+
+def thoat_ung_dung():
+    """
+    Hàm xử lý sự kiện khi bấm nút 'Thoát'.
+    """
+    root.destroy()
+
+# --- THIẾT KẾ GIAO DIỆN ---
+root = tk.Tk()
+root.title("Phần mềm tính BMI")
+root.resizable(False, False)
+
+# Khung chứa toàn bộ giao diện, màu vàng như hình
+frame = tk.Frame(root, padx=30, pady=30, bg='yellow')
+frame.pack(padx=10, pady=10)
+
+# Cấu hình grid để căn chỉnh đẹp hơn
+frame.columnconfigure(1, weight=1) 
+
+# --- Hàng 1: Nhập Chiều Cao ---
+tk.Label(frame, text="Nhập chiều cao:", bg='yellow').grid(row=0, column=0, sticky=tk.W, pady=5, padx=5)
+entry_cao = tk.Entry(frame, width=15)
+entry_cao.grid(row=0, column=1, sticky=tk.EW, pady=5, padx=5)
+entry_cao.insert(0, "1.8") # Giá trị mẫu
+
+# --- Hàng 2: Nhập Cân Nặng ---
+tk.Label(frame, text="Nhập cân nặng:", bg='yellow').grid(row=1, column=0, sticky=tk.W, pady=5, padx=5)
+entry_nang = tk.Entry(frame, width=15)
+entry_nang.grid(row=1, column=1, sticky=tk.EW, pady=5, padx=5)
+entry_nang.insert(0, "72") # Giá trị mẫu
+
+# --- Hàng 3: Nút Tính BMI ---
+btn_tinh = tk.Button(frame, text="Tính BMI", command=tinh_bmi)
+btn_tinh.grid(row=2, column=1, sticky=tk.EW, pady=15, padx=5)
+
+# --- Hàng 4: BMI của bạn (Kết quả) ---
+tk.Label(frame, text="BMI của bạn:", bg='yellow').grid(row=3, column=0, sticky=tk.W, pady=5, padx=5)
+entry_bmi = tk.Entry(frame, width=15, state='normal') # Vẫn dùng Entry để nhập kết quả
+entry_bmi.grid(row=3, column=1, sticky=tk.EW, pady=5, padx=5)
+
+# --- Hàng 5: Tình trạng của bạn ---
+tk.Label(frame, text="Tình trạng của bạn:", bg='yellow').grid(row=4, column=0, sticky=tk.W, pady=5, padx=5)
+# Sử dụng Label để hiển thị kết quả Tình trạng
+label_tinh_trang_val = tk.Label(frame, text="", bg='white', relief=tk.SUNKEN, width=15, anchor=tk.W)
+label_tinh_trang_val.grid(row=4, column=1, sticky=tk.EW, pady=5, padx=5)
+
+# --- Hàng 6: Nguy cơ phát triển bệnh ---
+tk.Label(frame, text="Nguy cơ phát triển bệnh:", bg='yellow').grid(row=5, column=0, sticky=tk.W, pady=5, padx=5)
+# Sử dụng Label để hiển thị kết quả Nguy cơ
+label_nguy_co_val = tk.Label(frame, text="", bg='white', relief=tk.SUNKEN, width=15, anchor=tk.W)
+label_nguy_co_val.grid(row=5, column=1, sticky=tk.EW, pady=5, padx=5)
+
+# --- Hàng 7: Nút Thoát ---
+btn_thoat = tk.Button(frame, text="Thoát", command=thoat_ung_dung)
+btn_thoat.grid(row=6, column=1, sticky=tk.EW, pady=15, padx=5)
+
+# Chạy tính BMI ban đầu với giá trị mẫu
+tinh_bmi()
+
+# Chạy vòng lặp sự kiện chính của Tkinter
+root.mainloop()

@@ -1,0 +1,1074 @@
+# Câu 1
+# ==========================
+# QUẢN LÝ SẢN PHẨM - TEXT FILE
+# ==========================
+
+# --- Hàm lưu file ---
+def LuuFile(path, data):
+    file = open(path, 'a', encoding='utf-8')
+    file.writelines(data)
+    file.writelines("\n")
+    file.close()
+
+
+# --- Hàm đọc file ---
+def DocFile(path):
+    arrProduct = []
+    file = open(path, 'r', encoding='utf-8')
+    for line in file:
+        data = line.strip()
+        arr = data.split(';')
+        arrProduct.append(arr)
+    file.close()
+    return arrProduct
+
+
+# --- Hàm xuất danh sách ---
+def XuatSanPham(dssp):
+    for row in dssp:
+        for element in row:
+            print(element, end='\t')
+        print()
+    print()
+
+
+# --- Hàm sắp xếp theo đơn giá giảm dần ---
+def SortSp(dssp):
+    n = len(dssp)
+    for i in range(n):
+        for j in range(i + 1, n):
+            if float(dssp[i][2]) < float(dssp[j][2]):
+                dssp[i], dssp[j] = dssp[j], dssp[i]
+
+
+# ==========================
+#        MENU CHÍNH
+# ==========================
+while True:
+    print("=========== QUẢN LÝ SẢN PHẨM ===========")
+    print("1. Thêm sản phẩm")
+    print("2. Xem danh sách sản phẩm")
+    print("3. Sắp xếp theo đơn giá giảm dần")
+    print("0. Thoát")
+    print("========================================")
+
+    chon = input("Chọn chức năng: ")
+
+    if chon == "1":
+        masp = input("Nhập mã SP: ")
+        tensp = input("Nhập tên SP: ")
+        dongia = float(input("Nhập đơn giá: "))
+
+        line = masp + ";" + tensp + ";" + str(dongia)
+        LuuFile("database.txt", line)
+        print(">> Đã lưu sản phẩm!\n")
+
+    elif chon == "2":
+        print(">> Danh sách sản phẩm:")
+        dssp = DocFile("database.txt")
+        XuatSanPham(dssp)
+
+    elif chon == "3":
+        dssp = DocFile("database.txt")
+        SortSp(dssp)
+        print(">> Danh sách sau khi sắp xếp giá giảm dần:")
+        XuatSanPham(dssp)
+
+    elif chon == "0":
+        print(">> Thoát chương trình.")
+        break
+
+    else:
+        print(">> Lựa chọn không hợp lệ! Hãy chọn lại.\n")
+
+# Câu 2
+# ==========================
+#   XỬ LÝ SỐ TRONG TEXT FILE
+# ==========================
+
+# --- Hàm lưu file ---
+def LuuFile(path, data):
+    file = open(path, 'a', encoding='utf-8')
+    file.writelines(data)
+    file.writelines("\n")
+    file.close()
+
+
+# --- Hàm đọc file ---
+def DocFile(path):
+    arrSo = []
+    file = open(path, 'r', encoding='utf-8')
+    for line in file:
+        data = line.strip()
+        arr = data.split(',')
+        arrSo.append(arr)
+    file.close()
+    return arrSo
+
+
+# --- Hàm xuất list số ---
+def XuatDanhSach(arrSo):
+    print("Danh sách số đọc từ file:")
+    for row in arrSo:
+        print(row)
+    print()
+
+
+# --- Hàm xuất số âm trên mỗi dòng ---
+def XuatSoAmTrenMoiDong(arrSo):
+    print("Các số âm trên mỗi dòng:")
+    for row in arrSo:
+        for element in row:
+            number = int(element)
+            if number < 0:
+                print(number, end='\t')
+        print()
+    print()
+
+
+# ==========================
+#        MENU CHÍNH
+# ==========================
+
+while True:
+    print("========== XỬ LÝ SỐ TRONG FILE ==========")
+    print("1. Tạo dữ liệu mẫu vào file")
+    print("2. Đọc file & xuất danh sách")
+    print("3. Xuất số âm trên mỗi dòng")
+    print("0. Thoát")
+    print("==========================================")
+
+    chon = input("Chọn chức năng: ")
+
+    if chon == "1":
+        # Tự động tạo dữ liệu mẫu giống đề bài
+        LuuFile("csdl_so.txt", "5,6,8,9,-5")
+        LuuFile("csdl_so.txt", "-9,5,4,7,8")
+        LuuFile("csdl_so.txt", "6,7,8,3,6,46,7,2,-6,-7")
+        LuuFile("csdl_so.txt", "-5,4,7,9,3,20")
+        LuuFile("csdl_so.txt", "5,-4,37,-19,24,-21")
+        LuuFile("csdl_so.txt", "15,9,0,-38,-3,15")
+        LuuFile("csdl_so.txt", "5,-4,77,-9,3,-7")
+        LuuFile("csdl_so.txt", "55,44,27")
+        LuuFile("csdl_so.txt", "-50,26")
+
+        print(">> Đã tạo dữ liệu mẫu vào csdl_so.txt\n")
+
+    elif chon == "2":
+        arrSo = DocFile("csdl_so.txt")
+        XuatDanhSach(arrSo)
+
+    elif chon == "3":
+        arrSo = DocFile("csdl_so.txt")
+        XuatSoAmTrenMoiDong(arrSo)
+
+    elif chon == "0":
+        print(">> Thoát chương trình.")
+        break
+
+    else:
+        print(">> Lựa chọn không hợp lệ, hãy chọn lại!\n")
+
+#Câu 3
+from xml.dom.minidom import parse
+import xml.dom.minidom
+
+# Tên file XML cần xử lý
+FILE_NAME = "employees.xml"
+
+def doc_du_lieu_xml(file_path):
+    """
+    Sử dụng XML DOM (minidom) để đọc dữ liệu từ file XML và in ra màn hình.
+    """
+    try:
+        # 1. Mở file xml bằng minidom parser
+        # parse() sẽ trả về đối tượng DOMTree
+        DOMTree = xml.dom.minidom.parse(file_path)
+        
+        # 2. Lấy phần tử gốc (root element)
+        # Trong trường hợp này là <employees>
+        collection = DOMTree.documentElement
+        
+        # 3. Lấy tất cả các tag con có tên là "employee"
+        employees = collection.getElementsByTagName("employee")
+        
+        print("--- DANH SÁCH NHÂN VIÊN ---")
+        print("ID\t\tTên Nhân Viên")
+        print("---------------------------------")
+        
+        # 4. Duyệt vòng lặp qua từng phần tử "employee" để lấy dữ liệu
+        for employee in employees:
+            
+            # Lấy phần tử <id>
+            # [0] vì getElementsByTagName trả về một danh sách (NodeList)
+            tag_id = employee.getElementsByTagName('id')[0]
+            # Lấy nội dung văn bản (data) bên trong tag
+            # childNodes[0] là node văn bản (text node) bên trong tag <id>
+            id = tag_id.childNodes[0].data
+            
+            # Lấy phần tử <name>
+            tag_name = employee.getElementsByTagName('name')[0]
+            name = tag_name.childNodes[0].data
+            
+            # In ra ID và Tên
+            print(f"{id}\t\t{name}")
+            
+    except FileNotFoundError:
+        print(f"❌ Lỗi: Không tìm thấy file '{file_path}'. Vui lòng đảm bảo file tồn tại và đúng tên.")
+    except IndexError:
+        print("❌ Lỗi cấu trúc XML: Thiếu tag 'id' hoặc 'name' trong một phần tử 'employee'.")
+    except Exception as e:
+        print(f"❌ Đã xảy ra lỗi: {e}")
+
+# Gọi hàm để thực thi
+doc_du_lieu_xml(FILE_NAME)
+
+#Câu4
+import json
+
+# 1. Khai báo chuỗi JSON (String)
+jsonString = '{ "ma":"nv1", "age":50, "ten":"Trần Duy Thanh"}'
+
+# 2. Sử dụng hàm json.loads() để chuyển đổi chuỗi JSON sang Python Object (dictionary)
+# json.loads() là viết tắt của "load string"
+dataObject = json.loads(jsonString)
+
+# 3. In ra kết quả và truy cập các thuộc tính của Python Object
+print("--- CHUỖI JSON GỐC ---")
+print(jsonString)
+print(type(jsonString)) # <class 'str'>
+
+print("\n--- PYTHON OBJECT ĐÃ CHUYỂN ĐỔI ---")
+print(dataObject)
+print(type(dataObject)) # <class 'dict'>
+
+print("\n--- TRUY CẬP CÁC THUỘC TÍNH ---")
+print("Mã:", dataObject["ma"])
+# Lưu ý: Cần điều chỉnh các key truy cập cho đúng: "age" là tuổi, "ten" là tên
+print("Tuổi:", dataObject["age"]) 
+print("Tên:", dataObject["ten"]))
+
+
+#Câu 5
+import json
+
+# 1. Khai báo Python Object (dictionary)
+pythonObject = {
+ "ten": "Trần Duy Thanh",
+ "tuoi": 50,
+ "ma": "nv1"
+}
+
+# 2. Sử dụng hàm json.dumps() để chuyển đổi Python Object sang chuỗi JSON (String)
+# json.dumps() là viết tắt của "dump string"
+jsonString = json.dumps(pythonObject)
+
+# 3. In ra kết quả
+print("--- PYTHON OBJECT GỐC ---")
+print(pythonObject)
+print(type(pythonObject)) # <class 'dict'>
+
+print("\n--- CHUỖI JSON ĐÃ CHUYỂN ĐỔI ---")
+print(jsonString)
+print(type(jsonString)) # <class 'str'>
+
+
+#Câu 6
+import csv
+
+# Tên file CSV cần xử lý
+FILE_NAME = 'datacsv.csv'
+
+def xu_ly_csv_file(file_path):
+    """
+    Đọc file CSV, sử dụng dấu chấm phẩy (;) làm dấu phân cách, 
+    và in ra cột mã và cột tên.
+    """
+    try:
+        # Mở file với chế độ 'r' (đọc), sử dụng 'newline=""' để xử lý
+        # các vấn đề về xuống dòng trên các hệ điều hành khác nhau.
+        with open(file_path, 'r', newline='', encoding='utf-8') as f:
+            
+            # Khởi tạo đối tượng reader của thư viện csv
+            # delimiter=';': Chỉ định dấu phân cách là dấu chấm phẩy
+            # quoting=csv.QUOTE_NONE: Chỉ định không xử lý dấu ngoặc kép (vì dữ liệu không có)
+            reader = csv.reader(f, delimiter=';', quoting=csv.QUOTE_NONE)
+            
+            # In tiêu đề
+            print("--- DỮ LIỆU TỪ FILE CSV ---")
+            print("Mã\t\tTên")
+            print("---------------------------")
+            
+            # Bỏ qua dòng tiêu đề (nếu cần)
+            next(reader, None) # Lấy và bỏ qua dòng đầu tiên ("ma;ten")
+            
+            # Lặp qua từng dòng (row) trong file
+            for row in reader:
+                # Mỗi 'row' là một list, với row[0] là mã và row[1] là tên
+                # Kiểm tra để đảm bảo dòng có đủ 2 cột
+                if len(row) >= 2:
+                    print(f"{row[0]}\t\t{row[1]}")
+                else:
+                    print(f"Bỏ qua dòng không hợp lệ: {row}")
+
+    except FileNotFoundError:
+        print(f"x Lỗi: Không tìm thấy file '{file_path}'. Vui lòng đảm bảo file tồn tại và đúng tên.")
+    except Exception as e:
+        print(f"x Đã xảy ra lỗi: {e}")
+
+# Gọi hàm để thực thi
+xu_ly_csv_file(FILE_NAME)
+
+#Câu 7
+import xlsxwriter
+import os
+
+# Tên file Excel sẽ được tạo
+FILE_NAME = 'demo.xlsx'
+
+def create_excel_with_format(file_path):
+    """
+    Tạo file Excel (.xlsx) với cấu trúc và định dạng yêu cầu,
+    sử dụng thư viện xlsxwriter.
+    """
+    try:
+        # 1. Tạo workbook và worksheet
+        workbook = xlsxwriter.Workbook(file_path)
+        worksheet = workbook.add_worksheet()
+
+        # 2. Định nghĩa các định dạng (Formats)
+        # Định dạng tiêu đề cột
+        header_format = workbook.add_format({
+            'bold': True,
+            'align': 'center',
+            'valign': 'vcenter',
+            'fg_color': '#D9D9D9', # Màu xám nhạt
+            'border': 1
+        })
+
+        # Định dạng số lượng và đơn giá (căn phải)
+        number_format = workbook.add_format({
+            'num_format': '#,##0', # Định dạng số có dấu phẩy
+            'align': 'right',
+            'border': 1
+        })
+        
+        # Định dạng text (căn giữa)
+        text_format = workbook.add_format({
+            'align': 'center',
+            'valign': 'vcenter',
+            'border': 1
+        })
+        
+        # Định dạng Stt và Mã SP (căn giữa)
+        stt_ma_format = workbook.add_format({
+            'align': 'center',
+            'border': 1
+        })
+
+        # 3. Định nghĩa dữ liệu
+        columns = [
+            {'header': 'STT', 'width': 5},
+            {'header': 'MÃ SẢN PHẨM', 'width': 15},
+            {'header': 'TÊN SẢN PHẨM', 'width': 25},
+            {'header': 'SỐ LƯỢNG', 'width': 10},
+            {'header': 'ĐƠN GIÁ', 'width': 10},
+        ]
+
+        data = [
+            [1, 'SP1', 'Coca', 15, 15000],
+            [2, 'SP2', 'Pepsi', 20, 18000],
+        ]
+        
+        # 4. Thiết lập chiều rộng cột
+        for col_num, col_info in enumerate(columns):
+            worksheet.set_column(col_num, col_num, col_info['width'])
+            
+        # 5. Ghi tiêu đề cột (Bắt đầu từ hàng 1, cột 0, tức là A2)
+        row_num = 1
+        for col_num, col_info in enumerate(columns):
+            worksheet.write(row_num, col_num, col_info['header'], header_format)
+            
+        # 6. Ghi dữ liệu (Bắt đầu từ hàng 2)
+        row_num += 1
+        for row_data in data:
+            # Cột STT, Mã SP (Text Center)
+            worksheet.write(row_num, 0, row_data[0], stt_ma_format)
+            worksheet.write(row_num, 1, row_data[1], stt_ma_format)
+            
+            # Cột Tên SP (Text Center)
+            worksheet.write(row_num, 2, row_data[2], text_format)
+
+            # Cột Số lượng, Đơn giá (Number Right)
+            worksheet.write(row_num, 3, row_data[3], number_format)
+            worksheet.write(row_num, 4, row_data[4], number_format)
+            
+            row_num += 1
+            
+        # 7. CHÈN HÌNH ẢNH/LOGO (Nếu có)
+        # Lưu ý: Bạn phải có sẵn một file ảnh (ví dụ: 'logo.png') trong cùng thư mục
+        image_file = 'logo.png' 
+        if os.path.exists(image_file):
+            # Chèn ảnh vào ô A1
+            worksheet.insert_image('A1', image_file, {'x_scale': 0.5, 'y_scale': 0.5})
+        else:
+            # Ghi chú cho người dùng biết cần phải có file logo.png
+            worksheet.write('A1', 'LOGO/TÊN CÔNG TY', workbook.add_format({'bold': True, 'font_size': 14}))
+
+
+        # 8. Đóng workbook để lưu file
+        workbook.close()
+        print(f"✅ Đã tạo và lưu file Excel thành công tại: {os.path.abspath(file_path)}")
+
+    except xlsxwriter.exceptions.FileCreateError:
+        print(f"❌ Lỗi: Không thể tạo file '{file_path}'. Vui lòng đảm bảo file không đang được mở bởi chương trình khác.")
+    except Exception as e:
+        print(f"❌ Đã xảy ra lỗi: {e}")
+
+# Gọi hàm để thực thi
+create_excel_with_format(FILE_NAME)
+
+#Câu 8
+from openpyxl import load_workbook
+import os
+
+# Tên file Excel đã được tạo ở Câu 7
+FILE_NAME = 'demo.xlsx' 
+
+def doc_excel_file(file_path):
+    """
+    Đọc dữ liệu từ file Excel bằng openpyxl và in ra màn hình.
+    """
+    try:
+        # 1. Tải (load) workbook từ file
+        wb = load_workbook(file_path)
+        
+        print("--- THÔNG TIN WORKBOOK ---")
+        # In tên tất cả các sheet
+        print("Tên các sheets:", wb.sheetnames)
+        
+        # 2. Chọn worksheet đầu tiên
+        # wb.sheetnames[0] sẽ lấy tên của sheet đầu tiên
+        ws = wb[wb.sheetnames[0]] 
+        
+        print(f"\n--- DỮ LIỆU TỪ SHEET: {ws.title} ---")
+        
+        # 3. Duyệt qua tất cả các hàng và ô trong sheet
+        # ws.values trả về một generator của các tuples, mỗi tuple là một hàng (row)
+        for row in ws.values:
+            for value in row:
+                # In giá trị của ô, cách nhau bằng tab
+                print(value, "\t", end='')
+            # Sau khi in hết các ô của một hàng, xuống dòng
+            print("")
+            
+    except FileNotFoundError:
+        print(f"❌ Lỗi: Không tìm thấy file '{file_path}'. Vui lòng đảm bảo file tồn tại.")
+    except Exception as e:
+        print(f"❌ Đã xảy ra lỗi: {e}")
+
+# Gọi hàm để thực thi
+doc_excel_file(FILE_NAME)
+
+
+#Câu 9
+# =========================
+# HÀM XỬ LÝ FILE
+# =========================
+
+def LuuFile(path, dataLine):
+    file = open(path, 'a', encoding='utf-8')
+    file.writelines(dataLine + "\n")
+    file.close()
+
+def GhiDeFile(path, ds):
+    file = open(path, "w", encoding="utf-8")
+    for row in ds:
+        file.write(";".join(row) + "\n")
+    file.close()
+
+def DocFile(path):
+    arr = []
+    file = open(path, 'r', encoding='utf-8')
+    for line in file:
+        data = line.strip()
+        arr.append(data.split(";"))
+    file.close()
+    return arr
+
+
+# =========================
+# QUẢN LÝ DANH MỤC
+# =========================
+
+def ThemDanhMuc():
+    print("=== THÊM DANH MỤC ===")
+    ma = input("Mã danh mục: ")
+    ten = input("Tên danh mục: ")
+    line = ma + ";" + ten
+    LuuFile("danhmuc.txt", line)
+    print(">> Đã lưu danh mục!")
+
+def XuatDanhMuc():
+    print("=== DANH MỤC ===")
+    ds = DocFile("danhmuc.txt")
+    for row in ds:
+        print(row[0], "\t", row[1])
+    print()
+
+def SuaDanhMuc():
+    ds = DocFile("danhmuc.txt")
+    ma = input("Nhập mã danh mục cần sửa: ")
+    for row in ds:
+        if row[0] == ma:
+            row[1] = input("Tên mới: ")
+            GhiDeFile("danhmuc.txt", ds)
+            print(">> Đã sửa!")
+            return
+    print(">> Không tìm thấy!")
+
+def XoaDanhMuc():
+    ds = DocFile("danhmuc.txt")
+    ma = input("Mã cần xóa: ")
+    ds = [row for row in ds if row[0] != ma]
+    GhiDeFile("danhmuc.txt", ds)
+    print(">> Đã xóa!")
+
+# =========================
+# QUẢN LÝ SẢN PHẨM
+# =========================
+
+def ThemSanPham():
+    print("=== THÊM SẢN PHẨM ===")
+    ma = input("Mã SP: ")
+    ten = input("Tên SP: ")
+    gia = input("Đơn giá: ")
+    maDM = input("Mã danh mục: ")
+    line = ma + ";" + ten + ";" + gia + ";" + maDM
+    LuuFile("sanpham.txt", line)
+    print(">> Đã lưu sản phẩm!")
+
+def XuatSanPham():
+    print("=== DANH SÁCH SẢN PHẨM ===")
+    ds = DocFile("sanpham.txt")
+    for row in ds:
+        print(row[0], row[1], row[2], "DM:", row[3])
+    print()
+
+def SuaSanPham():
+    ds = DocFile("sanpham.txt")
+    ma = input("Nhập mã SP cần sửa: ")
+
+    for row in ds:
+        if row[0] == ma:
+            row[1] = input("Tên mới: ")
+            row[2] = input("Đơn giá mới: ")
+            row[3] = input("Danh mục mới: ")
+            GhiDeFile("sanpham.txt", ds)
+            print(">> Đã sửa!")
+            return
+    print(">> Không tìm thấy!")
+
+def XoaSanPham():
+    ds = DocFile("sanpham.txt")
+    ma = input("Mã cần xóa: ")
+    ds = [row for row in ds if row[0] != ma]
+    GhiDeFile("sanpham.txt", ds)
+    print(">> Đã xóa!")
+
+def TimKiemSP():
+    key = input("Nhập tên cần tìm: ").lower()
+    ds = DocFile("sanpham.txt")
+    print("=== KẾT QUẢ ===")
+    for row in ds:
+        if key in row[1].lower():
+            print(row)
+    print()
+
+def SapXepSP():
+    ds = DocFile("sanpham.txt")
+    ds.sort(key=lambda x: float(x[2]), reverse=True)
+    Xuat = input("Lưu danh sách đã sắp xếp? (y/n): ")
+    if Xuat.lower() == 'y':
+        GhiDeFile("sanpham.txt", ds)
+    print("=== SAU SẮP XẾP ===")
+    for sp in ds:
+        print(sp)
+    print()
+
+
+# =========================
+# MENU CHÍNH
+# =========================
+
+while True:
+    print("=========== QUẢN LÝ SẢN PHẨM ===========")
+    print("1. Quản lý Danh Mục")
+    print("2. Quản lý Sản Phẩm")
+    print("0. Thoát")
+    chon = input("Chọn: ")
+
+    if chon == "1":
+        while True:
+            print("\n--- DANH MỤC ---")
+            print("1. Thêm")
+            print("2. Xuất")
+            print("3. Sửa")
+            print("4. Xóa")
+            print("0. Quay lại")
+            c = input("Chọn: ")
+
+            if c == "1": ThemDanhMuc()
+            elif c == "2": XuatDanhMuc()
+            elif c == "3": SuaDanhMuc()
+            elif c == "4": XoaDanhMuc()
+            elif c == "0": break
+
+    elif chon == "2":
+        while True:
+            print("\n--- SẢN PHẨM ---")
+            print("1. Thêm")
+            print("2. Xuất")
+            print("3. Sửa")
+            print("4. Xóa")
+            print("5. Tìm kiếm")
+            print("6. Sắp xếp theo giá giảm dần")
+            print("0. Quay lại")
+            c = input("Chọn: ")
+
+            if c == "1": ThemSanPham()
+            elif c == "2": XuatSanPham()
+            elif c == "3": SuaSanPham()
+            elif c == "4": XoaSanPham()
+            elif c == "5": TimKiemSP()
+            elif c == "6": SapXepSP()
+            elif c == "0": break
+
+    elif chon == "0":
+        print(">>> Thoát.")
+        break
+
+
+#Câu 10
+import json
+import os
+
+FILE_NAME = "sinhvien.json"
+
+# ----------------- HÀM ĐỌC FILE JSON --------------------
+def load_data():
+    if not os.path.exists(FILE_NAME):
+        return {"lop": []}
+    with open(FILE_NAME, "r", encoding="utf-8") as f:
+        return json.load(f)
+
+# ----------------- HÀM GHI FILE JSON --------------------
+def save_data(data):
+    with open(FILE_NAME, "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=4)
+
+# ----------------- THÊM LỚP --------------------
+def add_class(data):
+    malop = input("Nhập mã lớp: ")
+    tenlop = input("Nhập tên lớp: ")
+
+    data["lop"].append({
+        "malop": malop,
+        "tenlop": tenlop,
+        "sinhvien": []
+    })
+    print(">> Thêm lớp thành công!")
+
+# ----------------- THÊM SINH VIÊN --------------------
+def add_student(data):
+    malop = input("Nhập mã lớp cần thêm sinh viên: ")
+
+    # Tìm lớp
+    for lop in data["lop"]:
+        if lop["malop"] == malop:
+            masv = input("Nhập mã sinh viên: ")
+            tensv = input("Nhập tên sinh viên: ")
+            namsinh = int(input("Nhập năm sinh: "))
+
+            lop["sinhvien"].append({
+                "masv": masv,
+                "tensv": tensv,
+                "namsinh": namsinh
+            })
+            print(">> Thêm sinh viên thành công!")
+            return
+
+    print(">> Không tìm thấy mã lớp!")
+
+# ----------------- TÌM SINH VIÊN --------------------
+def search_student(data):
+    keyword = input("Nhập mã hoặc tên sinh viên cần tìm: ")
+
+    for lop in data["lop"]:
+        for sv in lop["sinhvien"]:
+            if keyword.lower() in sv["masv"].lower() or keyword.lower() in sv["tensv"].lower():
+                print("Tìm thấy:")
+                print(sv, "| Thuộc lớp:", lop["tenlop"])
+                return
+    print(">> Không tìm thấy sinh viên!")
+
+# ----------------- XÓA SINH VIÊN --------------------
+def delete_student(data):
+    masv = input("Nhập mã sinh viên cần xóa: ")
+
+    for lop in data["lop"]:
+        for sv in lop["sinhvien"]:
+            if sv["masv"] == masv:
+                lop["sinhvien"].remove(sv)
+                print(">> Xóa sinh viên thành công!")
+                return
+    print(">> Không tìm thấy mã sinh viên!")
+
+# ----------------- SẮP XẾP SINH VIÊN --------------------
+def sort_students(data):
+    for lop in data["lop"]:
+        lop["sinhvien"].sort(key=lambda x: x["tensv"])
+    print(">> Đã sắp xếp sinh viên theo tên!")
+
+# ----------------- HIỂN THỊ TOÀN BỘ --------------------
+def show_all(data):
+    for lop in data["lop"]:
+        print(f"\nLớp: {lop['malop']} - {lop['tenlop']}")
+        for sv in lop["sinhvien"]:
+            print("   ", sv)
+
+# ----------------- MENU CHÍNH --------------------
+def main():
+    data = load_data()
+
+    while True:
+        print("\n===== QUẢN LÝ SINH VIÊN (JSON) =====")
+        print("1. Thêm lớp")
+        print("2. Thêm sinh viên")
+        print("3. Tìm sinh viên")
+        print("4. Xóa sinh viên")
+        print("5. Sắp xếp sinh viên theo tên")
+        print("6. Hiển thị toàn bộ")
+        print("7. Lưu & Thoát")
+
+        choice = input("Chọn chức năng: ")
+
+        if choice == "1":
+            add_class(data)
+        elif choice == "2":
+            add_student(data)
+        elif choice == "3":
+            search_student(data)
+        elif choice == "4":
+            delete_student(data)
+        elif choice == "5":
+            sort_students(data)
+        elif choice == "6":
+            show_all(data)
+        elif choice == "7":
+            save_data(data)
+            print(">> Đã lưu file JSON. Thoát chương trình.")
+            break
+        else:
+            print(">> Lựa chọn không hợp lệ.")
+
+if __name__ == "__main__":
+    main()
+
+#Câu 11
+from openpyxl import Workbook, load_workbook
+import os
+
+FILE_NAME = "nhanvien.xlsx"
+
+# ------------------ TẠO FILE EXCEL NẾU CHƯA CÓ ------------------
+def create_file():
+    if not os.path.exists(FILE_NAME):
+        wb = Workbook()
+        ws = wb.active
+        ws.title = "NhanVien"
+        ws.append(["STT", "Mã", "Tên", "Tuổi"])
+        wb.save(FILE_NAME)
+
+
+# ------------------ LƯU NHÂN VIÊN ------------------
+def add_employee():
+    create_file()
+    wb = load_workbook(FILE_NAME)
+    ws = wb.active
+
+    ma = input("Nhập mã nhân viên: ")
+    ten = input("Nhập tên nhân viên: ")
+    tuoi = int(input("Nhập tuổi: "))
+
+    stt = ws.max_row  # STT tự tăng
+
+    ws.append([stt, ma, ten, tuoi])
+    wb.save(FILE_NAME)
+    print(">> Thêm nhân viên thành công!")
+
+
+# ------------------ ĐỌC DANH SÁCH ------------------
+def show_employees():
+    create_file()
+    wb = load_workbook(FILE_NAME)
+    ws = wb.active
+
+    print("\n===== DANH SÁCH NHÂN VIÊN =====")
+    for row in ws.iter_rows(values_only=True):
+        print(row)
+
+
+# ------------------ SẮP XẾP THEO TUỔI ------------------
+def sort_by_age():
+    create_file()
+    wb = load_workbook(FILE_NAME)
+    ws = wb.active
+
+    data = []
+
+    # Bỏ dòng tiêu đề
+    for row in ws.iter_rows(min_row=2, values_only=True):
+        data.append(list(row))
+
+    # Sắp xếp theo tuổi tăng dần
+    data.sort(key=lambda x: x[3])
+
+    # Ghi lại file
+    ws.delete_rows(2, ws.max_row)
+
+    stt = 1
+    for item in data:
+        ws.append([stt] + item[1:])
+        stt += 1
+
+    wb.save(FILE_NAME)
+    print(">> Đã sắp xếp theo tuổi tăng dần!")
+
+
+# ------------------ MENU CHÍNH ------------------
+def main():
+    create_file()
+
+    while True:
+        print("\n===== QUẢN LÝ NHÂN VIÊN (EXCEL) =====")
+        print("1. Thêm nhân viên")
+        print("2. Xem danh sách")
+        print("3. Sắp xếp theo tuổi")
+        print("4. Thoát")
+
+        choose = input("Chọn chức năng: ")
+
+        if choose == "1":
+            add_employee()
+        elif choose == "2":
+            show_employees()
+        elif choose == "3":
+            sort_by_age()
+        elif choose == "4":
+            print("Thoát chương trình.")
+            break
+        else:
+            print(">> Lựa chọn không hợp lệ!")
+
+
+if __name__ == "__main__":
+    main()
+
+
+#Câu 12
+import csv
+import random
+import os
+
+# Tên file CSV sẽ được sử dụng
+FILE_NAME = "random_data.csv"
+NUMBER_OF_ROWS = 10
+NUMBERS_PER_ROW = 10
+DELIMITER = ';' # Dấu phân cách là dấu chấm phẩy
+
+# --- PHẦN 1: HÀM LƯU TẬP TIN DẠNG CSV FILE ---
+def luu_file_csv_ngau_nhien(file_path, num_rows, num_cols, delimiter):
+    """
+    Tạo và lưu num_rows dòng dữ liệu ngẫu nhiên vào file CSV.
+    Mỗi dòng chứa num_cols số ngẫu nhiên cách nhau bởi delimiter.
+    """
+    print(f"--- 1. BẮT ĐẦU GHI FILE '{file_path}' ---")
+    try:
+        # Mở file ở chế độ 'w' (write) để ghi mới nội dung
+        with open(file_path, 'w', newline='', encoding='utf-8') as f:
+            # Sử dụng csv.writer để dễ dàng chỉ định delimiter
+            writer = csv.writer(f, delimiter=delimiter)
+            
+            for i in range(num_rows):
+                # Tạo một danh sách gồm num_cols số nguyên ngẫu nhiên từ 1 đến 99
+                random_numbers = [random.randint(1, 99) for _ in range(num_cols)]
+                
+                # Ghi danh sách này vào file
+                writer.writerow(random_numbers)
+                
+            print(f"✅ Đã ghi thành công {num_rows} dòng dữ liệu vào file: {file_path}")
+            
+    except Exception as e:
+        print(f"❌ Lỗi khi ghi file: {e}")
+
+# --- PHẦN 2: HÀM ĐỌC TẬP TIN VÀ TÍNH TỔNG GIÁ TRỊ TRÊN MỖI DÒNG ---
+def doc_file_csv_va_tinh_tong(file_path, delimiter):
+    """
+    Đọc file CSV, tính tổng giá trị của các phần tử trên mỗi dòng, và xuất kết quả.
+    """
+    print(f"\n--- 2. BẮT ĐẦU ĐỌC VÀ TÍNH TỔNG FILE '{file_path}' ---")
+    
+    if not os.path.exists(file_path):
+        print(f"❌ Lỗi: Không tìm thấy file '{file_path}'. Vui lòng chạy hàm ghi file trước.")
+        return
+        
+    try:
+        # Mở file ở chế độ 'r' (read)
+        with open(file_path, 'r', newline='', encoding='utf-8') as f:
+            # Sử dụng csv.reader để đọc file với delimiter đã chỉ định
+            reader = csv.reader(f, delimiter=delimiter)
+            
+            print(f"Dữ liệu đọc và Tổng giá trị trên mỗi dòng ({DELIMITER} là dấu phân cách):")
+            print("-" * 50)
+            
+            for row_index, row in enumerate(reader):
+                current_sum = 0
+                valid_numbers = []
+                
+                # Duyệt qua từng phần tử (value) trong dòng
+                for value in row:
+                    try:
+                        # Chuyển đổi giá trị từ chuỗi sang số nguyên
+                        number = int(value)
+                        current_sum += number
+                        valid_numbers.append(str(number))
+                    except ValueError:
+                        # Bỏ qua các giá trị không phải là số
+                        pass 
+                
+                # In ra dữ liệu gốc của dòng và tổng tương ứng
+                print(f"Dòng {row_index + 1}: {delimiter.join(valid_numbers)}")
+                print(f"  -> TỔNG: {current_sum}\n")
+                
+    except Exception as e:
+        print(f"❌ Lỗi khi đọc file: {e}")
+
+
+# --- THỰC THI CHƯƠNG TRÌNH ---
+# 1. Lưu file CSV ngẫu nhiên
+luu_file_csv_ngau_nhien(FILE_NAME, NUMBER_OF_ROWS, NUMBERS_PER_ROW, DELIMITER)
+
+# 2. Đọc file CSV và tính tổng
+doc_file_csv_va_tinh_tong(FILE_NAME, DELIMITER)
+
+#Câu 13
+from xml.dom.minidom import parse
+import xml.dom.minidom
+
+# ---------------------- ĐỌC NHÓM THIẾT BỊ ----------------------
+def read_groups():
+    DOMTree = xml.dom.minidom.parse("nhomthietbi.xml")
+    collection = DOMTree.documentElement
+    groups = collection.getElementsByTagName("nhom")
+
+    print("\n===== DANH SÁCH NHÓM THIẾT BỊ =====")
+    for g in groups:
+        ma = g.getElementsByTagName("ma")[0].childNodes[0].data
+        ten = g.getElementsByTagName("ten")[0].childNodes[0].data
+        print(ma, "-", ten)
+
+    return groups
+
+
+# ---------------------- ĐỌC TẤT CẢ THIẾT BỊ ----------------------
+def read_devices():
+    DOMTree = xml.dom.minidom.parse("ThietBi.xml")
+    collection = DOMTree.documentElement
+    devices = collection.getElementsByTagName("thietbi")
+
+    print("\n===== DANH SÁCH THIẾT BỊ =====")
+    for d in devices:
+        manhom = d.getAttribute("manhom")
+        ma = d.getElementsByTagName("ma")[0].childNodes[0].data
+        ten = d.getElementsByTagName("ten")[0].childNodes[0].data
+        print(ma, "-", ten, "| Nhóm:", manhom)
+
+    return devices
+
+
+# ---------------------- LỌC THIẾT BỊ THEO NHÓM ----------------------
+def filter_by_group():
+    group = input("Nhập mã nhóm cần lọc (vd: n1): ")
+
+    DOMTree = xml.dom.minidom.parse("ThietBi.xml")
+    collection = DOMTree.documentElement
+    devices = collection.getElementsByTagName("thietbi")
+
+    print(f"\n===== THIẾT BỊ THUỘC NHÓM {group} =====")
+    found = False
+
+    for d in devices:
+        manhom = d.getAttribute("manhom")
+        if manhom == group:
+            ma = d.getElementsByTagName("ma")[0].childNodes[0].data
+            ten = d.getElementsByTagName("ten")[0].childNodes[0].data
+            print(ma, "-", ten)
+            found = True
+
+    if not found:
+        print("Không có thiết bị nào thuộc nhóm này!")
+
+
+# ---------------------- NHÓM CÓ SỐ THIẾT BỊ NHIỀU NHẤT ----------------------
+def most_device_group():
+    # Đọc thiết bị
+    DOMTree = xml.dom.minidom.parse("ThietBi.xml")
+    collection = DOMTree.documentElement
+    devices = collection.getElementsByTagName("thietbi")
+
+    counter = {}
+
+    # Đếm số lượng theo nhóm
+    for d in devices:
+        manhom = d.getAttribute("manhom")
+        counter[manhom] = counter.get(manhom, 0) + 1
+
+    # Tìm nhóm nhiều nhất
+    max_group = max(counter, key=counter.get)
+
+    print("\n===== NHÓM CÓ NHIỀU THIẾT BỊ NHẤT =====")
+    print("Mã nhóm:", max_group, "| Số lượng:", counter[max_group])
+
+
+# ---------------------- MENU ----------------------
+def main():
+    while True:
+        print("\n====== QUẢN LÝ THIẾT BỊ (XML) ======")
+        print("1. Hiển thị danh sách nhóm thiết bị")
+        print("2. Hiển thị toàn bộ thiết bị")
+        print("3. Lọc thiết bị theo nhóm")
+        print("4. Nhóm có số thiết bị nhiều nhất")
+        print("5. Thoát")
+
+        choose = input("Chọn chức năng: ")
+
+        if choose == "1":
+            read_groups()
+        elif choose == "2":
+            read_devices()
+        elif choose == "3":
+            filter_by_group()
+        elif choose == "4":
+            most_device_group()
+        elif choose == "5":
+            print("Thoát chương trình.")
+            break
+        else:
+            print("Lựa chọn không hợp lệ!")
+
+
+if __name__ == "__main__":
+    main()
+
+
